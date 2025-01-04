@@ -120,6 +120,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Game\Debug\DebugScene.cpp" />
+    <ClCompile Include="Game\MainGame\Instance\Enemy\Enemy.cpp" />
     <ClCompile Include="Engine\Resources\Audio\AudioResourceBuilder.cpp" />
     <ClCompile Include="Engine\Module\World\AnimatedMesh\AnimatedMeshInstance.cpp" />
     <ClCompile Include="Engine\Module\World\Light\PointLight\PointLightInstance.cpp" />
@@ -142,6 +144,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Resources\PolygonMesh\PolygonMeshBuilder.cpp" />
     <ClCompile Include="Engine\Resources\Animation\Skeleton\SkeletonResourceBuilder.cpp" />
     <ClCompile Include="Engine\Resources\Animation\NodeAnimation\NodeAnimationResourceBuilder.cpp" />
+    <ClCompile Include="Game\MainGame\Instance\Player\Player.cpp" />
+    <ClCompile Include="Game\MainGame\SceneGame.cpp" />
+    <ClCompile Include="Game\Title\SceneTitle.cpp" />
     <ClCompile Include="TestCode\CallbackManagerDemo.cpp" />
     <ClCompile Include="Engine\Module\World\Collision\CollisionCallbackManager.cpp" />
     <ClCompile Include="Engine\Module\World\Light\DirectionalLight\DirectionalLightInstance.cpp" />
@@ -224,6 +229,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Resources\Texture\TextureResourceBuilder.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Game\Debug\DebugScene.h" />
+    <ClInclude Include="Game\MainGame\Instance\Enemy\Enemy.h" />
     <ClInclude Include="Engine\Resources\Audio\AudioResourceBuilder.h" />
     <ClInclude Include="Engine\Module\World\AnimatedMesh\AnimatedMeshInstance.h" />
     <ClInclude Include="Engine\Debug\ImGui\ImGuiJsonEditor\ValueEditorObject.h" />
@@ -249,6 +256,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Resources\PolygonMesh\PolygonMeshBuilder.h" />
     <ClInclude Include="Engine\Resources\Animation\Skeleton\SkeletonResourceBuilder.h" />
     <ClInclude Include="Engine\Resources\Animation\NodeAnimation\NodeAnimationResourceBuilder.h" />
+    <ClInclude Include="Game\MainGame\Instance\Player\Player.h" />
+    <ClInclude Include="Game\MainGame\SceneGame.h" />
+    <ClInclude Include="Game\Title\SceneTitle.h" />
     <ClInclude Include="TestCode\CallbackManagerDemo.h" />
     <ClInclude Include="Engine\Module\World\Collision\CollisionCallbackManager.h" />
     <ClInclude Include="Engine\Module\World\Light\DirectionalLight\DirectionalLightInstance.h" />

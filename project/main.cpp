@@ -3,6 +3,9 @@
 #include "Engine/Runtime/Scene/SceneManager.h"
 #include "TestCode/SceneDemo.h"
 
+#include "Game/Debug/DebugScene.h"
+#include "Game/Title/SceneTitle.h"
+
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	WinApp::Initialize();
 
@@ -10,7 +13,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	WorldClock::IsFixDeltaTime(false);
 #endif // _DEBUG
 
-	SceneManager::Initialize(std::make_unique<SceneDemo>());
+#ifdef _DEBUG
+	SceneManager::Initialize(std::make_unique<DebugScene>());
+#else
+	SceneManager::Initialize(std::make_unique<SceneTitle>());
+#endif // _DEBUG
+
 
 	WinApp::ShowAppWindow();
 
