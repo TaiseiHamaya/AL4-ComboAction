@@ -120,6 +120,9 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Game\MainGame\Instance\Player\Actions\Dash.cpp" />
+    <ClCompile Include="Game\MainGame\Instance\Player\Actions\BaseAction.cpp" />
+    <ClCompile Include="Game\MainGame\Instance\Player\ComboSystem\ComboSystem.cpp" />
     <ClCompile Include="Game\Debug\DebugScene.cpp" />
     <ClCompile Include="Game\MainGame\Instance\Enemy\Enemy.cpp" />
     <ClCompile Include="Engine\Resources\Audio\AudioResourceBuilder.cpp" />
@@ -129,6 +132,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Module\World\Particle\ParticleEmitterInstance.cpp" />
     <ClCompile Include="Engine\Resources\Json\JsonResource.cpp" />
     <ClCompile Include="Engine\Debug\ImGui\ImGuiJsonEditor\ImGuiValueEditor.cpp" />
+    <ClCompile Include="Game\MainGame\Instance\Player\Actions\Idle.cpp" />
     <ClCompile Include="Library\Math\Color3.cpp" />
     <ClCompile Include="Engine\Module\Render\RenderNode\Line\LineNode.cpp" />
     <ClCompile Include="Engine\Debug\ImGui\ImGuiTK\ImGuiTK.cpp" />
@@ -227,8 +231,12 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="main.cpp" />
     <ClCompile Include="TestCode\SceneDemo.cpp" />
     <ClCompile Include="Engine\Resources\Texture\TextureResourceBuilder.cpp" />
+    <ClCompile Include="Game\Util\TriggerOnce\TriggerOnce.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Game\MainGame\Instance\Player\Actions\Dash.h" />
+    <ClInclude Include="Game\MainGame\Instance\Player\Actions\BaseAction.h" />
+    <ClInclude Include="Game\MainGame\Instance\Player\ComboSystem\ComboSystem.h" />
     <ClInclude Include="Game\Debug\DebugScene.h" />
     <ClInclude Include="Game\MainGame\Instance\Enemy\Enemy.h" />
     <ClInclude Include="Engine\Resources\Audio\AudioResourceBuilder.h" />
@@ -241,6 +249,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Debug\ImGui\ImGuiJsonEditor\ImGuiValueEditor.h" />
     <ClInclude Include="Engine\Resources\Json\JsonSerializer.h" />
     <ClInclude Include="Engine\Resources\BaseResourceBuilder.h" />
+    <ClInclude Include="Game\MainGame\Instance\Player\Actions\Idle.h" />
     <ClInclude Include="Library\Math\Color3.h" />
     <ClInclude Include="Engine\Module\Render\RenderNode\Line\LineNode.h" />
     <ClInclude Include="Engine\Debug\ImGui\ImGuiTK\ImGuiTK.h" />
@@ -360,6 +369,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Module\World\Light\BaseLightInstance.h" />
     <ClInclude Include="TestCode\SceneDemo.h" />
     <ClInclude Include="Engine\Resources\Texture\TextureResourceBuilder.h" />
+    <ClInclude Include="Game\Util\TriggerOnce\TriggerOnce.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="EngineResources\HLSL\3DObject\Object3d.PS.hlsl">

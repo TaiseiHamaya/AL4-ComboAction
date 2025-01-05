@@ -50,12 +50,12 @@ void SceneGame::initialize() {
 	auto skinningMeshNode = eps::CreateShared<SkinningMeshNode>();
 	skinningMeshNode->initialize();
 	skinningMeshNode->set_config(
-		eps::to_bitflag(RenderNodeConfig::ContinueDrawAfter) |RenderNodeConfig::ContinueUseDpehtAfter
+		eps::to_bitflag(RenderNodeConfig::ContinueDrawAfter) | RenderNodeConfig::ContinueUseDpehtAfter
 	);
 	skinningMeshNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
 
 	renderPath = eps::CreateUnique<RenderPath>();
-	renderPath->initialize({meshNode, skinningMeshNode});
+	renderPath->initialize({ meshNode, skinningMeshNode });
 }
 
 void SceneGame::update() {
