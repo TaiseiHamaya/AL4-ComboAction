@@ -67,7 +67,7 @@ void SceneGame::update() {
 
 void SceneGame::begin_rendering() {
 	camera3D->update_matrix();
-	directionalLight->update_matrix();
+	directionalLight->update_affine();
 	player->begin_rendering();
 
 	player->late_update();
