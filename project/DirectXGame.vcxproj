@@ -120,6 +120,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Library\Math\Affine.cpp" />
+    <ClCompile Include="Library\Math\Basis.cpp" />
     <ClCompile Include="Game\MainGame\Instance\Player\Actions\Dash.cpp" />
     <ClCompile Include="Game\MainGame\Instance\Player\Actions\BaseAction.cpp" />
     <ClCompile Include="Game\MainGame\Instance\Player\ComboSystem\ComboSystem.cpp" />
@@ -234,6 +236,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\Util\TriggerOnce\TriggerOnce.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Library\Math\Affine.h" />
+    <ClInclude Include="Library\Math\Basis.h" />
     <ClInclude Include="Game\MainGame\Instance\Player\Actions\Dash.h" />
     <ClInclude Include="Game\MainGame\Instance\Player\Actions\BaseAction.h" />
     <ClInclude Include="Game\MainGame\Instance\Player\ComboSystem\ComboSystem.h" />
