@@ -3,11 +3,15 @@
 #include <Engine/Runtime/WorldClock/WorldClock.h>
 #include <Engine/Module/World/Collision/Collider/SphereCollider.h>
 #include <Engine/Module/World/Collision/CollisionManager.h>
+#include <Engine/Module/World/WorldInstance/WorldInstance.h>
 
 CollisionController::CollisionController() {
 	collider = std::make_shared<SphereCollider>();
 	collider->initialize();
 	collisionManager->register_collider("AttackCollider", collider);
+	if (parent) {
+		collider->set_parent(*parent);
+	}
 	reset();
 }
 

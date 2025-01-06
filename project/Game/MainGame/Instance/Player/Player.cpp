@@ -3,11 +3,12 @@
 #include "Actions/Idle.h"
 
 Player::Player() :
-	AnimatedMeshInstance("Player.gltf", "Armatureアクション") {
+	AnimatedMeshInstance("Player.gltf") {
+}
+
+void Player::initialize() {
 	rootAction = std::make_unique<Idle>();
-
 	rootAction->set_player(this);
-
 	set_action(rootAction.get());
 }
 

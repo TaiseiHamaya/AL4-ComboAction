@@ -9,22 +9,26 @@
 #include <Engine/Resources/Audio/AudioManager.h>
 #include <Engine/Runtime/WorldClock/WorldClock.h>
 #include <Engine/Utility/Tools/SmartPointer.h>
+#include <Engine/Module/World/Collision/Collider/SphereCollider.h>
 
 #include <Engine/Resources/Animation/NodeAnimation/NodeAnimationManager.h>
 #include <Engine/Resources/Animation/Skeleton/SkeletonManager.h>
 #include <Engine/Resources/PolygonMesh/PolygonMeshManager.h>
 
 #include "Game/MainGame/Instance/Player/CollisionController/CollisionController.h"
+#include "Game/MainGame/Misc/GameCallback.h"
 
 void SceneGame::load() {
 	PolygonMeshManager::RegisterLoadQue("./Resources/Game/Models/Player.gltf");
 	NodeAnimationManager::RegisterLoadQue("./Resources/Game/Models/Player.gltf");
 	SkeletonManager::RegisterLoadQue("./Resources/Game/Models/Player.gltf");
+	PolygonMeshManager::RegisterLoadQue("./Resources/Game/Models/Enemy.gltf");
 }
 
 void SceneGame::initialize() {
 	// ---------- Managers ---------- 
 	collisionManager = std::make_unique<CollisionManager>();
+	collisionManager->set_callback_manager(eps::CreateUnique<GameCallback>());
 	CollisionController::collisionManager = collisionManager.get();
 
 	// ---------- WorldInstances ---------- 
@@ -39,6 +43,11 @@ void SceneGame::initialize() {
 		});
 
 	player = eps::CreateUnique<Player>();
+	CollisionController::parent = player.get();
+	player->initialize();
+
+	enemy = eps::CreateUnique<Enemy>();
+	collisionManager->register_collider("Enemy", enemy->get_collider());
 
 	// Light
 	directionalLight = eps::CreateUnique<DirectionalLightInstance>();
@@ -63,8 +72,10 @@ void SceneGame::initialize() {
 
 void SceneGame::update() {
 	player->begin();
+	enemy->begin();
 
 	player->update();
+	enemy->update();
 
 }
 
@@ -72,8 +83,16 @@ void SceneGame::begin_rendering() {
 	camera3D->update_matrix();
 	directionalLight->update_affine();
 	player->begin_rendering();
+	enemy->begin_rendering();
+
+}
+
+void SceneGame::late_update() {
+	collisionManager->update();
+	collisionManager->collision("AttackCollider", "Enemy");
 
 	player->late_update();
+	enemy->late_update();
 }
 
 void SceneGame::draw() const {
@@ -81,6 +100,7 @@ void SceneGame::draw() const {
 	camera3D->register_world(1);
 	directionalLight->register_world(3);
 	// Mesh
+	enemy->draw();
 #ifdef _DEBUG
 	DebugValues::ShowGrid();
 	camera3D->debug_draw();

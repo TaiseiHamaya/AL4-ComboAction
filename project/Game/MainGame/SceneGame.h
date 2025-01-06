@@ -8,6 +8,7 @@
 #include <Engine/Module/World/Collision/CollisionManager.h>
 
 #include "Game/MainGame/Instance/Player/Player.h"
+#include "Game/MainGame/Instance/Enemy/Enemy.h"
 
 class SceneGame final : public BaseScene {
 public:
@@ -15,6 +16,7 @@ public:
 	void initialize() override;
 	void update() override;
 	void begin_rendering() override;
+	void late_update() override;
 	void draw() const override;
 
 #ifdef _DEBUG
@@ -29,4 +31,5 @@ private:
 	std::unique_ptr<Camera3D> camera3D;
 
 	std::unique_ptr<Player> player;
+	std::unique_ptr<Enemy> enemy;
 };
