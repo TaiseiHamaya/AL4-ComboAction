@@ -12,6 +12,7 @@ public:
 	~Player() = default;
 
 public:
+	void initialize();
 	void begin();
 
 	void update();

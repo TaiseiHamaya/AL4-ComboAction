@@ -5,6 +5,7 @@
 
 class BaseCollider;
 class CollisionManager;
+class WorldInstance;
 
 #include <Library/Math/Vector3.h>
 
@@ -31,4 +32,5 @@ private:
 
 public:
 	inline static CollisionManager* collisionManager{ nullptr };
+	inline static WorldInstance* parent{ nullptr };
 };
