@@ -6,8 +6,8 @@ Player::Player() :
 	AnimatedMeshInstance("Player.gltf") {
 }
 
-void Player::initialize() {
-	rootAction = std::make_unique<Idle>();
+void Player::initialize(const WorldInstance* camera) {
+	rootAction = std::make_unique<Idle>(camera);
 	rootAction->set_player(this);
 	set_action(rootAction.get());
 }

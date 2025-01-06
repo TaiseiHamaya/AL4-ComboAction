@@ -12,7 +12,7 @@ public:
 	~Player() = default;
 
 public:
-	void initialize();
+	void initialize(const WorldInstance* camera);
 	void begin();
 
 	void update();

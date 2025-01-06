@@ -1,16 +1,20 @@
 #include "Idle.h"
 
 #include "../Player.h"
-#include "Dash.h"
 #include "AttackActionFirst.h"
+#include "Dash.h"
 
+#include <Library/Math/Transform3D.h>
+
+#include <Engine/Module/World/WorldInstance/WorldInstance.h>
 #include <Engine/Runtime/Input/Input.h>
 #include <Engine/Runtime/WorldClock/WorldClock.h>
 
-Idle::Idle() {
+Idle::Idle(const WorldInstance* camera_) {
 	useAnimationName = "Idle";
 	actionTree.emplace_back(std::make_unique<Dash>());
 	actionTree.emplace_back(std::make_unique<AttackActionFirst>());
+	camera = camera_;
 }
 
 bool Idle::triggered_key() const {
@@ -58,6 +62,11 @@ void Idle::update() {
 	// velocity加算
 	constexpr float SPEED{ 50.0f };
 	xzVelocity += inputWASD * SPEED * WorldClock::DeltaSeconds();
+
+	Vector3 cameraForward = CVector3::BASIS_Z * camera->get_transform().get_quaternion();
+	Vector3 xzForward = { cameraForward.x, 0, cameraForward.z };
+	Quaternion rotation = Quaternion::FromToRotation(CVector3::BASIS_Z, xzForward.normalize_safe(1e-4f, CVector3::BASIS_Z));
+
 	// 地面の上では摩擦減衰
 	if (transform.get_translate().y == 0 && inputWASD.length() == 0) {
 		xzVelocity *= 0.75f;
@@ -70,6 +79,7 @@ void Idle::update() {
 
 	// Velocityにまとめる
 	Vector3 velocity = { xzVelocity.x, yVelocity, xzVelocity.y };
+	velocity = velocity * rotation;
 	// 移動
 	transform.plus_translate(velocity * WorldClock::DeltaSeconds());
 	// 地面に埋まらないようにする
@@ -80,7 +90,7 @@ void Idle::update() {
 	// ---------- 移動方向を向く ----------
 	// 向く方向
 	if (xzVelocity.length() != 0) {
-		forwardTo = Quaternion::LookForward(Vector3{ xzVelocity.x, 0, xzVelocity.y }.normalize());
+		forwardTo = Quaternion::LookForward(Vector3{ xzVelocity.x, 0, xzVelocity.y }.normalize() * rotation);
 	}
 	// Slerp補完
 	if (inputWASD.length() != 0) {

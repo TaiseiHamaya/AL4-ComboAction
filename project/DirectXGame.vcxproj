@@ -120,6 +120,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Game\MainGame\Instance\Camera\FollowCamera.cpp" />
     <ClCompile Include="Game\MainGame\Misc\GameCallback.cpp" />
     <ClCompile Include="Game\MainGame\Instance\Player\Actions\AttackActionPress.cpp" />
     <ClCompile Include="Game\MainGame\Instance\Player\Actions\BaseAttackAction.cpp" />
@@ -242,6 +243,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\Util\TriggerOnce\TriggerOnce.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Game\MainGame\Instance\Camera\FollowCamera.h" />
     <ClInclude Include="Game\MainGame\Misc\GameCallback.h" />
     <ClInclude Include="Game\MainGame\Instance\Player\Actions\AttackActionPress.h" />
     <ClInclude Include="Game\MainGame\Instance\Player\Actions\BaseAttackAction.h" />
