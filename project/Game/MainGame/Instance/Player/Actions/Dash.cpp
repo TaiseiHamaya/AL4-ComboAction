@@ -6,15 +6,31 @@
 
 constexpr float MOVE_TIME{ 0.5f };
 
-bool Dash::triggered() const {
+Dash::Dash() {
+	useAnimationName = "Dash";
+}
+
+bool Dash::triggered_key() const {
 	return Input::IsTriggerKey(KeyID::LShift);
 }
 
-bool Dash::can_trigger_next() const {
+bool Dash::triggered_pad() const {
+	return Input::IsTriggerPad(PadID::LShoulder);
+}
+
+bool Dash::end_action() const {
 	return timer >= MOVE_TIME;
 }
 
-void Dash::initialize() {
+bool Dash::bufferingabgle() const {
+	return timer >= MOVE_TIME * 0.9f;
+}
+
+bool Dash::transitionable() const {
+	return timer >= MOVE_TIME;
+}
+
+void Dash::reset() {
 	timer = 0;
 	Transform3D& transform = player->get_transform();
 	constexpr float MOVE_DISTANCE{ 5.0f };

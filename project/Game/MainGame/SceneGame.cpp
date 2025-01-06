@@ -14,6 +14,8 @@
 #include <Engine/Resources/Animation/Skeleton/SkeletonManager.h>
 #include <Engine/Resources/PolygonMesh/PolygonMeshManager.h>
 
+#include "Game/MainGame/Instance/Player/CollisionController/CollisionController.h"
+
 void SceneGame::load() {
 	PolygonMeshManager::RegisterLoadQue("./Resources/Game/Models/Player.gltf");
 	NodeAnimationManager::RegisterLoadQue("./Resources/Game/Models/Player.gltf");
@@ -23,6 +25,7 @@ void SceneGame::load() {
 void SceneGame::initialize() {
 	// ---------- Managers ---------- 
 	collisionManager = std::make_unique<CollisionManager>();
+	CollisionController::collisionManager = collisionManager.get();
 
 	// ---------- WorldInstances ---------- 
 

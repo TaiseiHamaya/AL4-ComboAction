@@ -6,9 +6,16 @@
 
 class Dash final : public BaseAction {
 public:
-	bool triggered() const override;
-	bool can_trigger_next() const override;
-	void initialize() override;
+	Dash();
+	~Dash() = default;
+
+public:
+	bool triggered_key() const override;
+	bool triggered_pad() const override;
+	bool end_action() const override;
+	bool bufferingabgle() const override;
+	bool transitionable() const override;
+	void reset() override;
 	void update() override;
 
 public:

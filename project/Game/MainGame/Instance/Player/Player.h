@@ -2,7 +2,6 @@
 
 #include <Engine/Module/World/AnimatedMesh/AnimatedMeshInstance.h>
 
-#include <vector>
 #include <memory>
 
 #include "Actions/BaseAction.h"
@@ -18,11 +17,10 @@ public:
 	void update();
 
 private:
-	void set_action(uint32_t index);
-
-	void triggers();
+	void set_action(BaseAction* action);
 
 private:
-	BaseAction* nowAction{ nullptr };
-	std::vector<std::unique_ptr<BaseAction>> actions;
+	BaseAction* nowAction{ nullptr }; // 今のアクション
+	BaseAction* actionBuffer{ nullptr }; // 先行入力保存用
+	std::unique_ptr<BaseAction> rootAction; // Idle
 };

@@ -612,9 +612,6 @@
     <ClCompile Include="Game\Title\SceneTitle.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Game\MainGame\Instance\Player\ComboSystem\ComboSystem.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Game\MainGame\Instance\Player\Actions\BaseAction.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -625,6 +622,24 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Game\MainGame\Instance\Player\Actions\Dash.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\MainGame\Instance\Player\Actions\AttackActionFirst.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\MainGame\Instance\Player\Actions\AttackActionSecond.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\MainGame\Instance\Player\CollisionController\CollisionController.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\MainGame\Instance\Player\Actions\BaseAttackAction.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\MainGame\Instance\Player\Actions\ComboConnector.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\MainGame\Instance\Player\Actions\AttackActionPress.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1028,9 +1043,6 @@
     <ClInclude Include="Game\Title\SceneTitle.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Game\MainGame\Instance\Player\ComboSystem\ComboSystem.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Game\MainGame\Instance\Player\Actions\BaseAction.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -1041,6 +1053,24 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Game\MainGame\Instance\Player\Actions\Dash.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\MainGame\Instance\Player\Actions\AttackActionFirst.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\MainGame\Instance\Player\Actions\AttackActionSecond.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\MainGame\Instance\Player\Actions\ComboConnector.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\MainGame\Instance\Player\CollisionController\CollisionController.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\MainGame\Instance\Player\Actions\BaseAttackAction.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\MainGame\Instance\Player\Actions\AttackActionPress.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
