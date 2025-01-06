@@ -7,15 +7,22 @@
 
 class Idle final : public BaseAction {
 public:
-	bool triggered() const override;
-	bool can_trigger_next() const override;
-	void initialize() override;
+	Idle();
+	~Idle() = default;
+
+public:
+	bool triggered_key() const override;
+	bool triggered_pad() const override;
+	bool bufferingabgle() const override;
+	bool transitionable() const override;
+	bool end_action() const;
+	void reset() override;
 	void update() override;
 
 private:
 	Vector2 inputWASD;
 	Vector2 xzVelocity;
-	float yVelocity;
+	float yVelocity{ 0 };
 
 	Quaternion forwardTo;
 };

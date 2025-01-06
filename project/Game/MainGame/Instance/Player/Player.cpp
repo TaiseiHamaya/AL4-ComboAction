@@ -1,18 +1,14 @@
 #include "Player.h"
 
 #include "Actions/Idle.h"
-#include "Actions/Dash.h"
 
 Player::Player() :
 	AnimatedMeshInstance("Player.gltf", "Armatureアクション") {
-	actions.emplace_back(std::make_unique<Idle>());
-	actions.emplace_back(std::make_unique<Dash>());
+	rootAction = std::make_unique<Idle>();
 
-	for (auto& action : actions) {
-		action->set_player(this);
-	}
+	rootAction->set_player(this);
 
-	set_action(0);
+	set_action(rootAction.get());
 }
 
 void Player::begin() {
@@ -27,28 +23,25 @@ void Player::begin() {
 void Player::update() {
 	nowAction->update();
 
-	if (nowAction->can_trigger_next()) {
-		triggers();
+	// 先行入力なしで終了した場合リセット
+	if (nowAction->end_action()) {
+		set_action(rootAction.get());
+	}
+	// 先行入力可能かつまだ先行入力してない場合
+	// 先行入力が存在するかチェック
+	if (nowAction->bufferingabgle() && !actionBuffer) {
+		actionBuffer = nowAction->next_combo_action();
+	}
+	// 遷移可能な場合は遷移
+	if (nowAction->transitionable() && actionBuffer) {
+		set_action(actionBuffer);
+		// 先行入力を削除
+		actionBuffer = nullptr;
 	}
 }
 
-void Player::set_action(uint32_t index) {
-	if (index < actions.size()) {
-		nowAction = actions[index].get();
-		nowAction->initialize();
-	}
-}
-
-void Player::triggers() {
-	for (uint32_t i = 0; auto & action : actions) {
-		if (action.get() == nowAction) {
-			++i;
-			continue;
-		}
-		if (action->triggered()) {
-			set_action(i);
-			break;
-		}
-		++i;
-	}
+void Player::set_action(BaseAction* action) {
+	nowAction = action;
+	nowAction->reset();
+	nowAction->reset_animation();
 }
