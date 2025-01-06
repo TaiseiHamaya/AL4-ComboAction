@@ -5,9 +5,11 @@
 #include <Library/Math/Vector2.h>
 #include <Library/Math/Quaternion.h>
 
+class WorldInstance;
+
 class Idle final : public BaseAction {
 public:
-	Idle();
+	Idle(const WorldInstance* camera_);
 	~Idle() = default;
 
 public:
@@ -25,4 +27,6 @@ private:
 	float yVelocity{ 0 };
 
 	Quaternion forwardTo;
+
+	const WorldInstance* camera;
 };

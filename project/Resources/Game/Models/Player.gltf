@@ -748,6 +748,19 @@
 			]
 		}
 	],
+	"materials":[
+		{
+			"doubleSided":true,
+			"name":"Material",
+			"pbrMetallicRoughness":{
+				"baseColorTexture":{
+					"index":0
+				},
+				"metallicFactor":0,
+				"roughnessFactor":0.5
+			}
+		}
+	],
 	"meshes":[
 		{
 			"name":"\u5186\u9310",
@@ -760,7 +773,8 @@
 						"JOINTS_0":3,
 						"WEIGHTS_0":4
 					},
-					"indices":5
+					"indices":5,
+					"material":0
 				}
 			]
 		},
@@ -775,9 +789,23 @@
 						"JOINTS_0":10,
 						"WEIGHTS_0":11
 					},
-					"indices":12
+					"indices":12,
+					"material":0
 				}
 			]
+		}
+	],
+	"textures":[
+		{
+			"sampler":0,
+			"source":0
+		}
+	],
+	"images":[
+		{
+			"mimeType":"image/png",
+			"name":"PlayerTex",
+			"uri":"PlayerTex.png"
 		}
 	],
 	"skins":[
@@ -1732,6 +1760,12 @@
 			"buffer":0,
 			"byteLength":24,
 			"byteOffset":23312
+		}
+	],
+	"samplers":[
+		{
+			"magFilter":9729,
+			"minFilter":9987
 		}
 	],
 	"buffers":[

@@ -34,7 +34,7 @@ void SceneGame::initialize() {
 	// ---------- WorldInstances ---------- 
 
 	// Camera
-	camera3D = std::make_unique<Camera3D>();
+	camera3D = std::make_unique<FollowCamera>();
 	camera3D->initialize();
 	camera3D->set_transform({
 		CVector3::BASIS,
@@ -44,7 +44,9 @@ void SceneGame::initialize() {
 
 	player = eps::CreateUnique<Player>();
 	CollisionController::parent = player.get();
-	player->initialize();
+	player->initialize(camera3D.get());
+
+	camera3D->set_target(player.get());
 
 	enemy = eps::CreateUnique<Enemy>();
 	collisionManager->register_collider("Enemy", enemy->get_collider());
@@ -73,9 +75,11 @@ void SceneGame::initialize() {
 void SceneGame::update() {
 	player->begin();
 	enemy->begin();
+	camera3D->input();
 
 	player->update();
 	enemy->update();
+	camera3D->update();
 
 }
 
