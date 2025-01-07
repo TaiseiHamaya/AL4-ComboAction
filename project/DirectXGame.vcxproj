@@ -283,6 +283,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Resources\PolygonMesh\PolygonMeshBuilder.h" />
     <ClInclude Include="Engine\Resources\Animation\Skeleton\SkeletonResourceBuilder.h" />
     <ClInclude Include="Engine\Resources\Animation\NodeAnimation\NodeAnimationResourceBuilder.h" />
+    <ClInclude Include="Engine\Utility\Template\Reference.h" />
     <ClInclude Include="Game\MainGame\Instance\Player\Player.h" />
     <ClInclude Include="Game\MainGame\SceneGame.h" />
     <ClInclude Include="Game\Title\SceneTitle.h" />
