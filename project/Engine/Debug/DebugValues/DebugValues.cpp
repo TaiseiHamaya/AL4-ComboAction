@@ -1,4 +1,4 @@
-#ifdef _DEBUG
+//#ifdef _DEBUG
 
 #include "DebugValues.h"
 
@@ -16,4 +16,4 @@ void DebugValues::ShowGrid() {
 	instance.gridMesh->begin_rendering();
 	instance.gridMesh->draw();
 }
-#endif // _DEBUG
+//#endif // _DEBUG

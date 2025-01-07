@@ -120,6 +120,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Game\MainGame\Instance\Player\Actions\AttackSky.cpp" />
     <ClCompile Include="Game\MainGame\Instance\Camera\FollowCamera.cpp" />
     <ClCompile Include="Game\MainGame\Misc\GameCallback.cpp" />
     <ClCompile Include="Game\MainGame\Instance\Player\Actions\AttackActionPress.cpp" />
@@ -160,6 +161,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\MainGame\SceneGame.cpp" />
     <ClCompile Include="Game\Title\SceneTitle.cpp" />
     <ClCompile Include="Game\MainGame\Instance\Player\Actions\AttackActionSecond.cpp" />
+    <ClCompile Include="Game\MainGame\Instance\Player\Actions\SkyEnd.cpp" />
     <ClCompile Include="TestCode\CallbackManagerDemo.cpp" />
     <ClCompile Include="Engine\Module\World\Collision\CollisionCallbackManager.cpp" />
     <ClCompile Include="Engine\Module\World\Light\DirectionalLight\DirectionalLightInstance.cpp" />
@@ -243,6 +245,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\Util\TriggerOnce\TriggerOnce.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Game\MainGame\Instance\Player\Actions\AttackSky.h" />
     <ClInclude Include="Game\MainGame\Instance\Camera\FollowCamera.h" />
     <ClInclude Include="Game\MainGame\Misc\GameCallback.h" />
     <ClInclude Include="Game\MainGame\Instance\Player\Actions\AttackActionPress.h" />
@@ -288,6 +291,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\MainGame\SceneGame.h" />
     <ClInclude Include="Game\Title\SceneTitle.h" />
     <ClInclude Include="Game\MainGame\Instance\Player\Actions\AttackActionSecond.h" />
+    <ClInclude Include="Game\MainGame\Instance\Player\Actions\SkyEnd.h" />
     <ClInclude Include="TestCode\CallbackManagerDemo.h" />
     <ClInclude Include="Engine\Module\World\Collision\CollisionCallbackManager.h" />
     <ClInclude Include="Engine\Module\World\Light\DirectionalLight\DirectionalLightInstance.h" />

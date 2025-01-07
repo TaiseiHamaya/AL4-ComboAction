@@ -2,10 +2,10 @@
 
 #include "BaseAttackAction.h"
 
-class AttackActionSecond final : public BaseAttackAction {
+class AttackSky final : public BaseAttackAction {
 public:
-	AttackActionSecond();
-	~AttackActionSecond() = default;
+	AttackSky();
+	~AttackSky() = default;
 
 public:
 	void reset() override;
@@ -13,3 +13,4 @@ public:
 
 	BaseAction* next_combo_action() override;
 };
+

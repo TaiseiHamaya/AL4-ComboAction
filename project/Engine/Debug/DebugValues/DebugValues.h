@@ -1,6 +1,6 @@
 #pragma once
 
-#ifdef _DEBUG
+//#ifdef _DEBUG
 
 #include <memory>
 
@@ -24,4 +24,4 @@ private:
 	std::unique_ptr<MeshInstance> gridMesh = nullptr;
 };
 
-#endif // _DEBUG
+//#endif // _DEBUG

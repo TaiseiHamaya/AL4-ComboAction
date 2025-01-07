@@ -19,6 +19,8 @@ public:
 	virtual void reset() override;
 	virtual void update() override;
 
+	virtual BaseAction* next_combo_action();
+
 #ifdef _DEBUG
 public:
 	virtual void debug_gui();

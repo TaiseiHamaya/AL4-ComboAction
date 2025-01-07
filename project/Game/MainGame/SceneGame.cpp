@@ -170,8 +170,8 @@ void SceneGame::draw() const {
 	playerShadow->draw();
 	enemyShadow->draw();
 	skydome->draw();
-#ifdef _DEBUG
 	DebugValues::ShowGrid();
+#ifdef _DEBUG
 	camera3D->debug_draw();
 	collisionManager->debug_draw3d();
 #endif // _DEBUG

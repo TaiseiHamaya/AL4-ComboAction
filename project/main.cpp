@@ -5,6 +5,7 @@
 
 #include "Game/Debug/DebugScene.h"
 #include "Game/Title/SceneTitle.h"
+#include "Game/MainGame/SceneGame.h"
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	WinApp::Initialize();
@@ -16,7 +17,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 #ifdef _DEBUG
 	SceneManager::Initialize(std::make_unique<DebugScene>());
 #else
-	SceneManager::Initialize(std::make_unique<SceneTitle>());
+	//SceneManager::Initialize(std::make_unique<SceneTitle>());
+	SceneManager::Initialize(std::make_unique<SceneGame>());
 #endif // _DEBUG
 
 

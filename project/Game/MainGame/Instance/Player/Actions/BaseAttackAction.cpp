@@ -43,9 +43,16 @@ void BaseAttackAction::reset() {
 
 void BaseAttackAction::update() {
 	collisionController.update();
-	if (transitionable()) {
-		collisionController.disable_force();
+}
+
+BaseAction* BaseAttackAction::next_combo_action() {
+	for (auto& action : actionTree) {
+		if (action->triggered_key() || action->triggered_pad()) {
+			collisionController.disable_force();
+			return action.get();
+		}
 	}
+	return nullptr;
 }
 
 #ifdef _DEBUG
