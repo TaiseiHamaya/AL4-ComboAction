@@ -250,6 +250,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\MainGame\Instance\Player\CollisionController\CollisionController.h" />
     <ClInclude Include="Game\MainGame\Instance\Player\Actions\ComboConnector.h" />
     <ClInclude Include="Game\MainGame\Instance\Player\Actions\AttackActionFirst.h" />
+    <ClInclude Include="Game\Util\RandomUtil.h" />
     <ClInclude Include="Library\Math\Affine.h" />
     <ClInclude Include="Library\Math\Basis.h" />
     <ClInclude Include="Game\MainGame\Instance\Player\Actions\Dash.h" />
