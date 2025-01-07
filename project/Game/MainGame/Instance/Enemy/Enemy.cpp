@@ -36,7 +36,7 @@ void Enemy::update() {
 	}
 }
 
-void Enemy::take_damage(float InvincibleTime) {
+void Enemy::take_damage(float InvincibleTime, const Vector3& colliderTranslate) {
 	invincibleTimer = InvincibleTime;
 	collider->set_active(false);
 	direction = RandomOnSphere();

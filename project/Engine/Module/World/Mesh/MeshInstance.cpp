@@ -45,6 +45,7 @@ void MeshInstance::begin_rendering() noexcept {
 	transformMatrix->set_transformation_matrix_data(world_affine().to_matrix());
 	// Materialに転送
 	for (int i = 0; i < meshMaterials.size(); ++i) {
+		meshMaterials[i].material->get_data()->lighting = static_cast<uint32_t>(meshMaterials[i].lightType);
 		meshMaterials[i].material->set_uv_transform(meshMaterials[i].uvTransform.get_matrix4x4_transform());
 	}
 }
@@ -170,5 +171,5 @@ void MeshInstance::debug_gui() {
 MeshInstance::PolygonMeshMaterial::PolygonMeshMaterial() :
 	material(eps::CreateUnique<Material>()),
 	color(material->get_data()->color) {
-	material->get_data()->lighting = static_cast<uint32_t>(LighingType::HalfLambert);
+	lightType = LighingType::HalfLambert;
 }

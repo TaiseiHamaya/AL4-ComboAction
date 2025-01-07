@@ -6,6 +6,7 @@
 #include <Engine/Module/World/Light/DirectionalLight/DirectionalLightInstance.h>
 #include <Engine/Module/World/Camera/Camera3D.h>
 #include <Engine/Module/World/Collision/CollisionManager.h>
+#include <Engine/Module/World/Particle/ParticleEmitterInstance.h>
 
 #include "Game/MainGame/Instance/Player/Player.h"
 #include "Game/MainGame/Instance/Enemy/Enemy.h"
@@ -34,6 +35,11 @@ private:
 
 	std::unique_ptr<Player> player;
 	std::unique_ptr<Enemy> enemy;
+	std::unique_ptr<MeshInstance> hitBillbord;
+	std::unique_ptr<ParticleEmitterInstance> emitter;
+	std::unique_ptr<MeshInstance> skydome;
+
+	float hitAnimationTimer{ 1000 };
 
 	GameCallback* callbackRef;
 };

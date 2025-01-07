@@ -59,7 +59,7 @@ public: // その他関数
 	void unref() noexcept { reference = nullptr; };
 
 private:
-	T* reference;
+	T* reference{ nullptr };
 };
 
 // 等価演算子

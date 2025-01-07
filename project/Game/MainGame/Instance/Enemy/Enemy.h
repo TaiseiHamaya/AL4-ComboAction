@@ -15,7 +15,7 @@ public:
 	void update() override;
 
 public:
-	void take_damage(float Time);
+	void take_damage(float Time, const Vector3& colliderTranslate);
 	const std::shared_ptr<SphereCollider>& get_collider() const { return collider; };
 
 private:

@@ -2,7 +2,14 @@
 
 #include <Engine/Module/World/Collision/Collider/SphereCollider.h>
 
-GameCallback::GameCallback() {
+GameCallback::GameCallback(
+	Reference<ParticleEmitterInstance> emitter_,
+	Reference<MeshInstance> mesh_,
+	Reference<const WorldInstance> player_
+) :
+	emitter(emitter_),
+	mesh(mesh_),
+	player(player_) {
 	callbackFunctions.emplace(
 		CallbackMapKey("AttackCollider", "Enemy"),
 		CallbackFunctions{
@@ -13,6 +20,10 @@ GameCallback::GameCallback() {
 	);
 }
 
+void GameCallback::update() {
+	onCollision = false;
+}
+
 void GameCallback::register_enemy(Reference<Enemy> enemy) {
 	getEnemyByCollider.emplace(
 		enemy->get_collider().get(), enemy
@@ -21,13 +32,25 @@ void GameCallback::register_enemy(Reference<Enemy> enemy) {
 
 void GameCallback::Callback(__CALLBACK_ARGUMENT_DEFAULT(lhs, rhs)) {
 	Reference<Enemy> enemy;
+	Vector3 collisionPosition;
 	if (getEnemyByCollider.contains(lhs)) {
 		enemy = getEnemyByCollider.at(lhs);
+		collisionPosition = lhs->world_position();
 	}
 	if (getEnemyByCollider.contains(rhs)) {
 		enemy = getEnemyByCollider.at(rhs);
+		collisionPosition = rhs->world_position();
 	}
 	if (enemy) {
-		enemy->take_damage(0.3f);
+		enemy->take_damage(0.3f, collisionPosition);
 	}
+
+	Vector3 direction = (player->world_position() - collisionPosition).normalize_safe(1e-6f, CVector3::ZERO);
+	Vector3 position = collisionPosition + direction * 0.5f;
+	emitter->get_transform().set_translate(position);
+	emitter->emit();
+
+	const Quaternion& rotation = mesh->get_transform().get_quaternion();
+	mesh->get_transform().set_translate(position + CVector3::BASIS_Z * rotation);
+	onCollision = true;
 }

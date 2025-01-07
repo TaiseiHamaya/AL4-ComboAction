@@ -33,7 +33,7 @@ bool Dash::transitionable() const {
 void Dash::reset() {
 	timer = 0;
 	Transform3D& transform = player->get_transform();
-	constexpr float MOVE_DISTANCE{ 5.0f };
+	constexpr float MOVE_DISTANCE{ 10.0f };
 	moveFrom = player->world_position();
 	moveTo = player->world_position() +
 		CVector3::BASIS_Z * MOVE_DISTANCE * transform.get_quaternion();
