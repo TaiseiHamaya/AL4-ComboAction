@@ -10,7 +10,10 @@
 Enemy::Enemy() :
 	MeshInstance("Enemy.gltf") {
 	collider = eps::CreateUnique<SphereCollider>();
+	collider->initialize();
 	collider->set_parent(*this);
+	collider->set_radius(0.5f);
+	collider->get_transform().set_translate_y(0.5f);
 }
 
 void Enemy::update() {

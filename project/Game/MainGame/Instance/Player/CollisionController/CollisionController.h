@@ -9,6 +9,7 @@ class WorldInstance;
 
 #include <Library/Math/Vector3.h>
 
+#include <Engine/Utility/Template/Reference.h>
 #include <Engine/Resources/Json/JsonResource.h>
 
 class CollisionController {
@@ -52,6 +53,6 @@ public:
 public:
 	inline static const std::filesystem::path ActionJsonDir{ "./Resources/Game/Json" };
 
-	inline static CollisionManager* collisionManager{ nullptr };
-	inline static WorldInstance* parent{ nullptr };
+	inline static Reference<CollisionManager> collisionManager{ nullptr };
+	inline static Reference<WorldInstance> parent{ nullptr };
 };

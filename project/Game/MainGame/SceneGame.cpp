@@ -46,14 +46,14 @@ void SceneGame::initialize() {
 		});
 
 	player = eps::CreateUnique<Player>();
-	CollisionController::parent = player.get();
-	player->initialize(camera3D.get());
+	CollisionController::parent = player;
+	player->initialize(camera3D);
 
-	camera3D->set_target(player.get());
+	camera3D->set_target(player);
 
 	enemy = eps::CreateUnique<Enemy>();
 	collisionManager->register_collider("Enemy", enemy->get_collider());
-	callbackRef->register_enemy(enemy.get());
+	callbackRef->register_enemy(enemy);
 
 	// Light
 	directionalLight = eps::CreateUnique<DirectionalLightInstance>();

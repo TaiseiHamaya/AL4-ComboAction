@@ -17,7 +17,7 @@ public:
 	void set_offset(const Vector3& offset_);
 	const Vector3& get_offset() const;
 
-	void set_target(const WorldInstance* target_);
+	void set_target(Reference<const WorldInstance> target_);
 
 #ifdef _DEBUG
 public:
@@ -30,7 +30,7 @@ private:
 	bool isPressX;
 	Vector2 inputStickR;
 
-	const WorldInstance* target;
+	Reference<const WorldInstance> target;
 	WorldInstance lookAtInstance;
 	Quaternion destingRotation;
 

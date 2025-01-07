@@ -106,7 +106,7 @@ const Vector3& FollowCamera::get_offset() const {
 	return offset;
 }
 
-void FollowCamera::set_target(const WorldInstance* target_) {
+void FollowCamera::set_target(Reference<const WorldInstance> target_) {
 	target = target_;
 }
 

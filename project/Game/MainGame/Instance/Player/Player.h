@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Engine/Module/World/AnimatedMesh/AnimatedMeshInstance.h>
+#include <Engine/Utility/Template/Reference.h>
 
 #include <memory>
 
@@ -12,7 +13,7 @@ public:
 	~Player() = default;
 
 public:
-	void initialize(const WorldInstance* camera);
+	void initialize(Reference<const WorldInstance> camera);
 	void begin();
 
 	void update();

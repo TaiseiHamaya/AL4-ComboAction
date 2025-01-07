@@ -1,5 +1,7 @@
 #pragma once
 
+#include <Engine/Utility/Template/Reference.h>
+
 class Player;
 
 #include <vector>
@@ -12,7 +14,7 @@ public:
 	virtual ~BaseAction() = default;
 
 public:
-	void set_player(Player* const player);
+	void set_player(Reference<Player> player);
 	void reset_animation();
 	void begin();
 	virtual bool triggered_key() const = 0;
@@ -32,7 +34,7 @@ public:
 
 protected:
 	float timer{ 0 };
-	Player* player{ nullptr };
+	Reference<Player> player{ nullptr };
 	std::string useAnimationName{ "Armatureアクション" };
 	bool loopAnimation{ false };
 

@@ -5,7 +5,7 @@
 #include <Engine/Runtime/WorldClock/WorldClock.h>
 #include <Engine/Resources/Animation/NodeAnimation/NodeAnimationPlayer.h>
 
-void BaseAction::set_player(Player* const player_) {
+void BaseAction::set_player(Reference<Player> player_) {
 	player = player_;
 	for (auto& action : actionTree) {
 		action->set_player(player);

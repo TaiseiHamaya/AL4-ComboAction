@@ -14,7 +14,7 @@ CollisionController::CollisionController() {
 	collider->set_active(false);
 	collisionManager->register_collider("AttackCollider", collider);
 	if (parent) {
-		collider->set_parent(*parent);
+		collider->set_parent(*parent.ptr());
 	}
 	reset();
 }

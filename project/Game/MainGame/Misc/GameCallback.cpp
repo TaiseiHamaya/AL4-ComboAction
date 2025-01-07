@@ -13,14 +13,14 @@ GameCallback::GameCallback() {
 	);
 }
 
-void GameCallback::register_enemy(Enemy* enemy) {
+void GameCallback::register_enemy(Reference<Enemy> enemy) {
 	getEnemyByCollider.emplace(
 		enemy->get_collider().get(), enemy
 	);
 }
 
 void GameCallback::Callback(__CALLBACK_ARGUMENT_DEFAULT(lhs, rhs)) {
-	Enemy* enemy{ nullptr };
+	Reference<Enemy> enemy;
 	if (getEnemyByCollider.contains(lhs)) {
 		enemy = getEnemyByCollider.at(lhs);
 	}
@@ -28,6 +28,6 @@ void GameCallback::Callback(__CALLBACK_ARGUMENT_DEFAULT(lhs, rhs)) {
 		enemy = getEnemyByCollider.at(rhs);
 	}
 	if (enemy) {
-		enemy->take_damage(0.5f);
+		enemy->take_damage(0.3f);
 	}
 }

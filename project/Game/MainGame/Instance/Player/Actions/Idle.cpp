@@ -10,7 +10,7 @@
 #include <Engine/Runtime/Input/Input.h>
 #include <Engine/Runtime/WorldClock/WorldClock.h>
 
-Idle::Idle(const WorldInstance* camera_) {
+Idle::Idle(Reference<const WorldInstance> camera_) {
 	useAnimationName = "Idle";
 	actionTree.emplace_back(std::make_unique<Dash>());
 	actionTree.emplace_back(std::make_unique<AttackActionFirst>());

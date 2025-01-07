@@ -9,7 +9,7 @@ class WorldInstance;
 
 class Idle final : public BaseAction {
 public:
-	Idle(const WorldInstance* camera_);
+	Idle(Reference<const WorldInstance> camera_);
 	~Idle() = default;
 
 public:
@@ -28,5 +28,5 @@ private:
 
 	Quaternion forwardTo;
 
-	const WorldInstance* camera;
+	Reference<const WorldInstance> camera;
 };
