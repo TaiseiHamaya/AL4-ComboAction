@@ -1085,6 +1085,9 @@
     <ClInclude Include="Game\MainGame\Instance\Camera\FollowCamera.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Util\RandomUtil.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="EngineResources\HLSL\FullscreenShader.hlsl">

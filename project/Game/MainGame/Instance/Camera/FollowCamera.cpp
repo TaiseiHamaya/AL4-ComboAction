@@ -3,7 +3,11 @@
 #include <algorithm>
 
 #include <Engine/Runtime/Input/Input.h>
+#include <Engine/Runtime/WorldClock/WorldClock.h>
+
 #include <Library/Math/Definition.h>
+
+#include "Game/Util/RandomUtil.h"
 
 void FollowCamera::initialize() {
 	Camera3D::initialize();
@@ -15,6 +19,11 @@ void FollowCamera::initialize() {
 }
 
 void FollowCamera::update() {
+	shakeTimer -= WorldClock::DeltaSeconds();
+	if (shakeTimer >= 0.0f) {
+		shakeOffset = RandomOnSphere() * RandomEngine::Random01MOD();
+	}
+
 	// 入力から回転に変換
 	Vector2 rotateAngle = inputStickR * ToRadian * 1.5f;
 
@@ -83,6 +92,10 @@ void FollowCamera::input() {
 		inputStickR = InputAdvanced::PressArrow();
 	}
 	isPressX = Input::IsTriggerPad(PadID::X) || Input::IsTriggerKey(KeyID::L);
+}
+
+void FollowCamera::do_shake() {
+	shakeTimer = 1.0f;
 }
 
 void FollowCamera::set_offset(const Vector3& offset_) {

@@ -5,6 +5,8 @@
 #include <Engine/Runtime/WorldClock/WorldClock.h>
 #include <Engine/Utility/Tools/RandomEngine.h>
 
+#include "Game/Util/RandomUtil.h"
+
 Enemy::Enemy() :
 	MeshInstance("Enemy.gltf") {
 	collider = eps::CreateUnique<SphereCollider>();
@@ -29,13 +31,6 @@ void Enemy::update() {
 	else {
 		transform.set_translate(translate);
 	}
-}
-
-Vector3 RandomOnSphere() {
-	float cosTheta = -2.0f * RandomEngine::Random01Closed() + 1.0f;
-	float sinTheta = std::sqrt(1 - cosTheta * cosTheta);
-	float phi = PI2 * RandomEngine::Random01Closed();
-	return { sinTheta * std::cos(phi), sinTheta * std::sin(phi), cosTheta };
 }
 
 void Enemy::take_damage(float InvincibleTime) {

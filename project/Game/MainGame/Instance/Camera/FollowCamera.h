@@ -11,6 +11,9 @@ public:
 	void input();
 
 public:
+	void do_shake();
+
+public:
 	void set_offset(const Vector3& offset_);
 	const Vector3& get_offset() const;
 
@@ -30,5 +33,8 @@ private:
 	const WorldInstance* target;
 	WorldInstance lookAtInstance;
 	Quaternion destingRotation;
+
+	Vector3 shakeOffset;
+	float shakeTimer;
 };
 
