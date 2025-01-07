@@ -15,6 +15,7 @@ Idle::Idle(const WorldInstance* camera_) {
 	actionTree.emplace_back(std::make_unique<Dash>());
 	actionTree.emplace_back(std::make_unique<AttackActionFirst>());
 	camera = camera_;
+	loopAnimation = true;
 }
 
 bool Idle::triggered_key() const {

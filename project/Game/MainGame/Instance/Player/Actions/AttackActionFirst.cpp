@@ -11,6 +11,8 @@ AttackActionFirst::AttackActionFirst() {
 	bufferingableParametric = 0.3f;
 	transitionableParametric = 0.9f;
 	actionTree.emplace_back(CreateComboConnector<AttackActionSecond, AttackActionPress>(KeyID::K, PadID::A, 0.6f));
+	collisionController.initialize(JsonResource{ CollisionController::ActionJsonDir / "first.json" });
+	guiTag = "AttackActionFirst";
 }
 
 void AttackActionFirst::reset() {

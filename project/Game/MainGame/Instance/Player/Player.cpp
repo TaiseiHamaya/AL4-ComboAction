@@ -41,6 +41,17 @@ void Player::update() {
 	}
 }
 
+#ifdef _DEBUG
+#include <imgui.h>
+void Player::debug_gui() {
+	ImGui::Begin("Player");
+	AnimatedMeshInstance::debug_gui();
+	ImGui::End();
+
+	rootAction->debug_gui();
+}
+#endif // _DEBUG
+
 void Player::set_action(BaseAction* action) {
 	nowAction = action;
 	nowAction->reset();

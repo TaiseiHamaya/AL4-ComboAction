@@ -24,10 +24,17 @@ public:
 	virtual bool transitionable() const = 0;
 	virtual BaseAction* next_combo_action();
 
+#ifdef _DEBUG
+public:
+	virtual void debug_gui();
+#endif // _DEBUG
+
+
 protected:
 	float timer{ 0 };
 	Player* player{ nullptr };
 	std::string useAnimationName{ "Armatureアクション" };
+	bool loopAnimation{ false };
 
 	std::vector<std::unique_ptr<BaseAction>> actionTree;
 };

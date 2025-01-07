@@ -20,9 +20,9 @@ void Enemy::update() {
 	}
 
 	if (invincibleTimer >= 0) {
-		bool singbit = std::signbit(std::sin(invincibleTimer * PI * 60));
+		bool singbit = std::signbit(std::sin(invincibleTimer * PI * 20));
 		if (singbit) {
-			transform.set_translate(translate + direction * invincibleTimer * 10);
+			transform.set_translate(translate + direction * invincibleTimer * 1);
 		}
 		else {
 			transform.set_translate(translate);

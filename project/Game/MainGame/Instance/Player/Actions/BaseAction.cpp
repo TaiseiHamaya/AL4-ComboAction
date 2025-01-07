@@ -16,6 +16,7 @@ void BaseAction::reset_animation() {
 	NodeAnimationPlayer* animation = player->get_animation();
 	animation->reset_animation(useAnimationName);
 	animation->restart();
+	animation->set_loop(loopAnimation);
 }
 
 void BaseAction::begin() {
@@ -30,3 +31,13 @@ BaseAction* BaseAction::next_combo_action() {
 	}
 	return nullptr;
 }
+
+#ifdef _DEBUG
+
+
+void BaseAction::debug_gui() {
+	for (auto& action : actionTree) {
+		action->debug_gui();
+	}
+}
+#endif // _DEBUG

@@ -701,49 +701,49 @@
 			"name":"Idle",
 			"samplers":[
 				{
-					"input":67,
+					"input":49,
+					"interpolation":"LINEAR",
+					"output":67
+				},
+				{
+					"input":47,
 					"interpolation":"STEP",
 					"output":68
 				},
 				{
-					"input":67,
+					"input":47,
 					"interpolation":"STEP",
 					"output":69
 				},
 				{
-					"input":67,
+					"input":47,
 					"interpolation":"STEP",
 					"output":70
 				},
 				{
-					"input":67,
+					"input":47,
 					"interpolation":"STEP",
 					"output":71
 				},
 				{
-					"input":67,
+					"input":47,
 					"interpolation":"STEP",
 					"output":72
 				},
 				{
-					"input":67,
+					"input":47,
 					"interpolation":"STEP",
 					"output":73
 				},
 				{
-					"input":67,
+					"input":47,
 					"interpolation":"STEP",
 					"output":74
 				},
 				{
-					"input":67,
+					"input":47,
 					"interpolation":"STEP",
 					"output":75
-				},
-				{
-					"input":67,
-					"interpolation":"STEP",
-					"output":76
 				}
 			]
 		}
@@ -1299,26 +1299,20 @@
 		{
 			"bufferView":67,
 			"componentType":5126,
-			"count":2,
-			"max":[
-				0.3333333333333333
-			],
-			"min":[
-				0
-			],
-			"type":"SCALAR"
+			"count":61,
+			"type":"VEC3"
 		},
 		{
 			"bufferView":68,
 			"componentType":5126,
 			"count":2,
-			"type":"VEC3"
+			"type":"VEC4"
 		},
 		{
 			"bufferView":69,
 			"componentType":5126,
 			"count":2,
-			"type":"VEC4"
+			"type":"VEC3"
 		},
 		{
 			"bufferView":70,
@@ -1330,13 +1324,13 @@
 			"bufferView":71,
 			"componentType":5126,
 			"count":2,
-			"type":"VEC3"
+			"type":"VEC4"
 		},
 		{
 			"bufferView":72,
 			"componentType":5126,
 			"count":2,
-			"type":"VEC4"
+			"type":"VEC3"
 		},
 		{
 			"bufferView":73,
@@ -1348,16 +1342,10 @@
 			"bufferView":74,
 			"componentType":5126,
 			"count":2,
-			"type":"VEC3"
-		},
-		{
-			"bufferView":75,
-			"componentType":5126,
-			"count":2,
 			"type":"VEC4"
 		},
 		{
-			"bufferView":76,
+			"bufferView":75,
 			"componentType":5126,
 			"count":2,
 			"type":"VEC3"
@@ -1713,53 +1701,48 @@
 		},
 		{
 			"buffer":0,
-			"byteLength":8,
+			"byteLength":732,
 			"byteOffset":23088
 		},
 		{
 			"buffer":0,
+			"byteLength":32,
+			"byteOffset":23820
+		},
+		{
+			"buffer":0,
 			"byteLength":24,
-			"byteOffset":23096
+			"byteOffset":23852
+		},
+		{
+			"buffer":0,
+			"byteLength":24,
+			"byteOffset":23876
 		},
 		{
 			"buffer":0,
 			"byteLength":32,
-			"byteOffset":23120
+			"byteOffset":23900
 		},
 		{
 			"buffer":0,
 			"byteLength":24,
-			"byteOffset":23152
+			"byteOffset":23932
 		},
 		{
 			"buffer":0,
 			"byteLength":24,
-			"byteOffset":23176
+			"byteOffset":23956
 		},
 		{
 			"buffer":0,
 			"byteLength":32,
-			"byteOffset":23200
+			"byteOffset":23980
 		},
 		{
 			"buffer":0,
 			"byteLength":24,
-			"byteOffset":23232
-		},
-		{
-			"buffer":0,
-			"byteLength":24,
-			"byteOffset":23256
-		},
-		{
-			"buffer":0,
-			"byteLength":32,
-			"byteOffset":23280
-		},
-		{
-			"buffer":0,
-			"byteLength":24,
-			"byteOffset":23312
+			"byteOffset":24012
 		}
 	],
 	"samplers":[
@@ -1770,7 +1753,7 @@
 	],
 	"buffers":[
 		{
-			"byteLength":23336,
+			"byteLength":24036,
 			"uri":"Player.bin"
 		}
 	]

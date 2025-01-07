@@ -2,6 +2,8 @@
 
 AttackActionPress::AttackActionPress() {
 	useAnimationName = "AttackCharged";
+	collisionController.initialize(JsonResource{ CollisionController::ActionJsonDir / "press.json" });
+	guiTag = "AttackActionPress";
 }
 
 void AttackActionPress::reset() {

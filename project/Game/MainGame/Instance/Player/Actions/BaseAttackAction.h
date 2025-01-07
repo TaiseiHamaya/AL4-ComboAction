@@ -19,6 +19,13 @@ public:
 	virtual void reset() override;
 	virtual void update() override;
 
+#ifdef _DEBUG
+public:
+	virtual void debug_gui();
+protected:
+	std::string guiTag;
+#endif // _DEBUG
+
 protected:
 	CollisionController collisionController;
 	float bufferingableParametric{ 0 };
