@@ -10,6 +10,7 @@
 #include "Game/MainGame/Instance/Player/Player.h"
 #include "Game/MainGame/Instance/Enemy/Enemy.h"
 #include "Game/MainGame/Instance/Camera/FollowCamera.h"
+#include "Game/MainGame/Misc/GameCallback.h"
 
 class SceneGame final : public BaseScene {
 public:
@@ -33,4 +34,6 @@ private:
 
 	std::unique_ptr<Player> player;
 	std::unique_ptr<Enemy> enemy;
+
+	GameCallback* callbackRef;
 };

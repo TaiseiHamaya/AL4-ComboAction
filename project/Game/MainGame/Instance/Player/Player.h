@@ -17,6 +17,11 @@ public:
 
 	void update();
 
+#ifdef _DEBUG
+public:
+	void debug_gui() override;
+#endif // _DEBUG
+
 private:
 	void set_action(BaseAction* action);
 

@@ -43,4 +43,18 @@ void BaseAttackAction::reset() {
 
 void BaseAttackAction::update() {
 	collisionController.update();
+	if (transitionable()) {
+		collisionController.disable_force();
+	}
 }
+
+#ifdef _DEBUG
+#include <imgui.h>
+void BaseAttackAction::debug_gui() {
+	ImGui::Begin(guiTag.c_str());
+	collisionController.debug_gui();
+	ImGui::End();
+
+	BaseAction::debug_gui();
+}
+#endif // _DEBUG

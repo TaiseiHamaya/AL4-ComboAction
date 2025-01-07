@@ -5,11 +5,11 @@
 #include <Engine/Module/Render/RenderNode/Object3DNode/Object3DNode.h>
 #include <Engine/Module/Render/RenderNode/SkinningMesh/SkinningMeshNode.h>
 #include <Engine/Module/Render/RenderTargetGroup/SwapChainRenderTargetGroup.h>
+#include <Engine/Module/World/Collision/Collider/SphereCollider.h>
 #include <Engine/Rendering/DirectX/DirectXSwapChain/DirectXSwapChain.h>
 #include <Engine/Resources/Audio/AudioManager.h>
 #include <Engine/Runtime/WorldClock/WorldClock.h>
 #include <Engine/Utility/Tools/SmartPointer.h>
-#include <Engine/Module/World/Collision/Collider/SphereCollider.h>
 
 #include <Engine/Resources/Animation/NodeAnimation/NodeAnimationManager.h>
 #include <Engine/Resources/Animation/Skeleton/SkeletonManager.h>
@@ -23,12 +23,15 @@ void SceneGame::load() {
 	NodeAnimationManager::RegisterLoadQue("./Resources/Game/Models/Player.gltf");
 	SkeletonManager::RegisterLoadQue("./Resources/Game/Models/Player.gltf");
 	PolygonMeshManager::RegisterLoadQue("./Resources/Game/Models/Enemy.gltf");
+	PolygonMeshManager::RegisterLoadQue("./EngineResources/Models/Collider/Sphere/SphereCollider.obj");
 }
 
 void SceneGame::initialize() {
 	// ---------- Managers ---------- 
 	collisionManager = std::make_unique<CollisionManager>();
-	collisionManager->set_callback_manager(eps::CreateUnique<GameCallback>());
+	auto callback = eps::CreateUnique<GameCallback>();
+	callbackRef = callback.get();
+	collisionManager->set_callback_manager(std::move(callback));
 	CollisionController::collisionManager = collisionManager.get();
 
 	// ---------- WorldInstances ---------- 
@@ -50,6 +53,7 @@ void SceneGame::initialize() {
 
 	enemy = eps::CreateUnique<Enemy>();
 	collisionManager->register_collider("Enemy", enemy->get_collider());
+	callbackRef->register_enemy(enemy.get());
 
 	// Light
 	directionalLight = eps::CreateUnique<DirectionalLightInstance>();
@@ -108,6 +112,7 @@ void SceneGame::draw() const {
 #ifdef _DEBUG
 	DebugValues::ShowGrid();
 	camera3D->debug_draw();
+	collisionManager->debug_draw3d();
 #endif // _DEBUG
 
 	renderPath->next();
