@@ -6,7 +6,9 @@ AttackActionSecond::AttackActionSecond() {
 	transitionableParametric= 0.9f;
 
 	collisionController.initialize(JsonResource{ CollisionController::ActionJsonDir / "second.json" });
+#ifdef _DEBUG
 	guiTag = "AttackActionSecond";
+#endif // _DEBUG
 }
 
 void AttackActionSecond::reset() {

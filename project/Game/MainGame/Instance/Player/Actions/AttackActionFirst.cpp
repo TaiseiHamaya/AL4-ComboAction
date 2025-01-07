@@ -12,7 +12,10 @@ AttackActionFirst::AttackActionFirst() {
 	transitionableParametric = 0.9f;
 	actionTree.emplace_back(CreateComboConnector<AttackActionSecond, AttackActionPress>(KeyID::K, PadID::A, 0.6f));
 	collisionController.initialize(JsonResource{ CollisionController::ActionJsonDir / "first.json" });
+#ifdef _DEBUG
 	guiTag = "AttackActionFirst";
+#endif // _DEBUG
+
 }
 
 void AttackActionFirst::reset() {
