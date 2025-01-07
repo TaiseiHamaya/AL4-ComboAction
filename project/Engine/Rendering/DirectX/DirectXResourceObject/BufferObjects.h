@@ -17,5 +17,7 @@ struct VertexBufferData {
 struct MaterialBufferData {
 	Color3 color;
 	std::uint32_t lighting;
+	float shininess;
+	std::array<std::int32_t, 3> padding;
 	Matrix4x4 uvTransformMatrix = CMatrix4x4::IDENTITY;
 };

@@ -162,7 +162,7 @@ void SceneGame::late_update() {
 
 void SceneGame::draw() const {
 	renderPath->begin();
-	camera3D->register_world(1);
+	camera3D->register_world(1, 5);
 	directionalLight->register_world(3);
 	// Mesh
 	enemy->draw();
@@ -177,7 +177,7 @@ void SceneGame::draw() const {
 #endif // _DEBUG
 
 	renderPath->next();
-	camera3D->register_world(1);
+	camera3D->register_world(1, 6);
 	directionalLight->register_world(3);
 	// AnimatedMesh
 	player->draw();

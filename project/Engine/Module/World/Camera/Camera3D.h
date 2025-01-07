@@ -1,5 +1,7 @@
 #pragma once
 
+#include <optional>
+
 #include "Library/Math/Vector2.h"
 
 #include "Engine/Module/World/WorldInstance/WorldInstance.h"
@@ -22,7 +24,7 @@ public:
 
 	void update_matrix();
 
-	void register_world(uint32_t index);
+	void register_world(uint32_t index, std::optional<uint32_t> specular = std::nullopt);
 
 public:
 	void set_transform(const Transform3D& transform) noexcept;
@@ -51,6 +53,7 @@ private:
 	Matrix4x4 perspectiveFovMatrix;
 
 	ConstantBuffer<Matrix4x4> vpMatrixBuffer;
+	ConstantBuffer<Vector3> worldPosition;
 
 	float fovY;
 	float aspectRatio;

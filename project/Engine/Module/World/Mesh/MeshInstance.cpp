@@ -171,5 +171,6 @@ void MeshInstance::debug_gui() {
 MeshInstance::PolygonMeshMaterial::PolygonMeshMaterial() :
 	material(eps::CreateUnique<Material>()),
 	color(material->get_data()->color) {
+	material->get_data()->shininess = 50.000f;
 	lightType = LighingType::HalfLambert;
 }
