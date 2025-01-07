@@ -50,7 +50,8 @@ void Idle::update() {
 	Transform3D& transform = player->get_transform();
 
 	// ---------- ジャンプ処理 ----------
-	if (transform.get_translate().y == 0 && Input::IsTriggerKey(KeyID::Space)) {
+	if (transform.get_translate().y == 0 && 
+		(Input::IsTriggerKey(KeyID::Space) || Input::IsTriggerPad(PadID::A))) {
 		yVelocity = 8.0f;
 	}
 	// 重力処理
@@ -60,6 +61,9 @@ void Idle::update() {
 	// ---------- 水平方向のvelocity ----------
 	// キー入力
 	inputWASD = InputAdvanced::PressWASD();
+	if (inputWASD.length() == 0) {
+		inputWASD = Input::StickL();
+	}
 	// velocity加算
 	constexpr float SPEED{ 50.0f };
 	xzVelocity += inputWASD * SPEED * WorldClock::DeltaSeconds();

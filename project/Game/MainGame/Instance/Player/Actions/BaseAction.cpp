@@ -25,7 +25,7 @@ void BaseAction::begin() {
 
 BaseAction* BaseAction::next_combo_action() {
 	for (auto& action : actionTree) {
-		if (action->triggered_key()) {
+		if (action->triggered_key() || action->triggered_pad()) {
 			return action.get();
 		}
 	}

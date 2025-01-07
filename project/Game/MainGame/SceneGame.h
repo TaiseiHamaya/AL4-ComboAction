@@ -38,6 +38,8 @@ private:
 	std::unique_ptr<MeshInstance> hitBillbord;
 	std::unique_ptr<ParticleEmitterInstance> emitter;
 	std::unique_ptr<MeshInstance> skydome;
+	std::unique_ptr<MeshInstance> playerShadow;
+	std::unique_ptr<MeshInstance> enemyShadow;
 
 	float hitAnimationTimer{ 1000 };
 

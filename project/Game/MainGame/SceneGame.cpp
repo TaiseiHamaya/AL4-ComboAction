@@ -23,6 +23,7 @@
 
 void SceneGame::load() {
 	PolygonMeshManager::RegisterLoadQue("./Resources/Game/Models/skydome.gltf");
+	PolygonMeshManager::RegisterLoadQue("./Resources/Game/Models/shadow.gltf");
 	PolygonMeshManager::RegisterLoadQue("./Resources/Game/Models/Particle01.gltf");
 	PolygonMeshManager::RegisterLoadQue("./Resources/Game/Models/HitParticle.gltf");
 	PolygonMeshManager::RegisterLoadQue("./Resources/Game/Models/Player.gltf");
@@ -41,6 +42,8 @@ void SceneGame::initialize() {
 	skydome->get_transform().set_scale(CVector3::BASIS * 100);
 	skydome->get_materials()[0].lightType = LighingType::None;
 	skydome->begin_rendering();
+	playerShadow = eps::CreateUnique<MeshInstance>("shadow.gltf");
+	enemyShadow = eps::CreateUnique<MeshInstance>("shadow.gltf");
 	// ---------- Managers ---------- 
 	collisionManager = std::make_unique<CollisionManager>();
 	auto callback = eps::CreateUnique<GameCallback>(emitter, hitBillbord, player);
@@ -66,7 +69,7 @@ void SceneGame::initialize() {
 
 	camera3D->set_target(player);
 
-	enemy = eps::CreateUnique<Enemy>();
+	enemy = eps::CreateUnique<Enemy>(player);
 	collisionManager->register_collider("Enemy", enemy->get_collider());
 	callbackRef->register_enemy(enemy);
 
@@ -119,6 +122,18 @@ void SceneGame::update() {
 		{ std::min(currentFrame, 5) / 6.0f, 0 }
 	);
 	hitBillbord->look_at(*camera3D);
+
+	playerShadow->update();
+	float scaleBase = 1 / (player->get_transform().get_translate().y + 2);
+	playerShadow->get_transform().set_scale({ scaleBase, scaleBase, scaleBase });
+	playerShadow->get_transform().set_translate(player->world_position());
+	playerShadow->get_transform().set_translate_y(0.01f);
+
+	enemyShadow->update();
+	scaleBase = 1 / (enemy->get_transform().get_translate().y + 2);
+	enemyShadow->get_transform().set_scale({ scaleBase, scaleBase, scaleBase });
+	enemyShadow->get_transform().set_translate(enemy->world_position());
+	enemyShadow->get_transform().set_translate_y(0.01f);
 }
 
 void SceneGame::begin_rendering() {
@@ -128,6 +143,8 @@ void SceneGame::begin_rendering() {
 	enemy->begin_rendering();
 	hitBillbord->begin_rendering();
 	emitter->begin_rendering();
+	playerShadow->begin_rendering();
+	enemyShadow->begin_rendering();
 
 }
 
@@ -150,6 +167,8 @@ void SceneGame::draw() const {
 	// Mesh
 	enemy->draw();
 	hitBillbord->draw();
+	playerShadow->draw();
+	enemyShadow->draw();
 	skydome->draw();
 #ifdef _DEBUG
 	DebugValues::ShowGrid();

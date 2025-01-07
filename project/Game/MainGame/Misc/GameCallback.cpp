@@ -32,21 +32,21 @@ void GameCallback::register_enemy(Reference<Enemy> enemy) {
 
 void GameCallback::Callback(__CALLBACK_ARGUMENT_DEFAULT(lhs, rhs)) {
 	Reference<Enemy> enemy;
-	Vector3 collisionPosition;
+	Vector3 enemyCollisionPosition;
 	if (getEnemyByCollider.contains(lhs)) {
 		enemy = getEnemyByCollider.at(lhs);
-		collisionPosition = lhs->world_position();
+		enemyCollisionPosition= lhs->world_position();
 	}
 	if (getEnemyByCollider.contains(rhs)) {
 		enemy = getEnemyByCollider.at(rhs);
-		collisionPosition = rhs->world_position();
+		enemyCollisionPosition= rhs->world_position();
 	}
 	if (enemy) {
-		enemy->take_damage(0.3f, collisionPosition);
+		enemy->take_damage(0.3f);
 	}
 
-	Vector3 direction = (player->world_position() - collisionPosition).normalize_safe(1e-6f, CVector3::ZERO);
-	Vector3 position = collisionPosition + direction * 0.5f;
+	Vector3 direction = (player->world_position() - enemyCollisionPosition).normalize_safe(1e-6f, CVector3::ZERO);
+	Vector3 position = enemyCollisionPosition + direction * 0.5f;
 	emitter->get_transform().set_translate(position);
 	emitter->emit();
 

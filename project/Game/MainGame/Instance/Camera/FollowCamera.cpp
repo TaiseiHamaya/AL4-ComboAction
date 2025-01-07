@@ -91,7 +91,7 @@ void FollowCamera::input() {
 	if (inputStickR.length() == 0) {
 		inputStickR = InputAdvanced::PressArrow();
 	}
-	isPressX = Input::IsTriggerPad(PadID::X) || Input::IsTriggerKey(KeyID::L);
+	isPressX = Input::IsTriggerPad(PadID::Y) || Input::IsTriggerKey(KeyID::L);
 }
 
 void FollowCamera::do_shake() {

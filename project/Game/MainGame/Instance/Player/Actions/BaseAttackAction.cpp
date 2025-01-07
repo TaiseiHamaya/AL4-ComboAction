@@ -10,7 +10,7 @@ bool BaseAttackAction::triggered_key() const {
 }
 
 bool BaseAttackAction::triggered_pad() const {
-	return Input::IsTriggerPad(PadID::A);
+	return Input::IsTriggerPad(PadID::X);
 }
 
 bool BaseAttackAction::end_action() const {
