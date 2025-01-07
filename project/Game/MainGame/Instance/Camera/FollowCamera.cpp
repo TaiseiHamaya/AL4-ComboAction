@@ -25,7 +25,7 @@ void FollowCamera::update() {
 	}
 
 	// 入力から回転に変換
-	Vector2 rotateAngle = inputStickR * ToRadian * 1.5f;
+	Vector2 rotateAngle = inputStickR * PI * WorldClock::DeltaSeconds();
 
 	rotateAngle.y *= -1;
 	// 平行成分と垂直成分でQuaternionを生成

@@ -127,6 +127,9 @@ void CollisionManager::debug_draw3d() {
 	for (const auto& collider : colliderList | std::views::values) {
 		auto colliderLocked = collider.lock();
 		if (colliderLocked && colliderLocked->is_active()) {
+			auto& drawer = colliderLocked->get_collider_drawer();
+			drawer.begin_rendering();
+			drawer.draw();
 		}
 	}
 }

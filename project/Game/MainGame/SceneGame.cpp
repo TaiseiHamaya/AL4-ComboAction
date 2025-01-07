@@ -23,6 +23,7 @@ void SceneGame::load() {
 	NodeAnimationManager::RegisterLoadQue("./Resources/Game/Models/Player.gltf");
 	SkeletonManager::RegisterLoadQue("./Resources/Game/Models/Player.gltf");
 	PolygonMeshManager::RegisterLoadQue("./Resources/Game/Models/Enemy.gltf");
+	PolygonMeshManager::RegisterLoadQue("./EngineResources/Models/Collider/Sphere/SphereCollider.obj");
 }
 
 void SceneGame::initialize() {
@@ -111,6 +112,7 @@ void SceneGame::draw() const {
 #ifdef _DEBUG
 	DebugValues::ShowGrid();
 	camera3D->debug_draw();
+	collisionManager->debug_draw3d();
 #endif // _DEBUG
 
 	renderPath->next();

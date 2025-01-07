@@ -98,8 +98,10 @@ void CollisionController::debug_gui() {
 	ImGui::Text("List");
 	for (auto itr = curve.begin(); itr != curve.end();) {
 		const float& key = itr->first;
-		const Vector3& value = itr->second;
-		ImGui::Text("%.2f: %.2f,%.2f,%.2f", key, value.x, value.y, value.z);
+		Vector3& value = itr->second;
+		ImGui::Text("%.2f:", key);
+		ImGui::SameLine();
+		ImGui::DragFloat3(std::format("##{}", key).c_str(), &value.x, 0.1f);
 		ImGui::SameLine();
 		if (ImGui::Button(std::format("Erase##{}", key).c_str())) {
 			itr = curve.erase(itr);
