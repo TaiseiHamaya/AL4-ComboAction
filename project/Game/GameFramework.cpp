@@ -6,6 +6,7 @@
 
 void GameFramework::initialize() {
 	SceneManager::SetFactory<SceneFactoryGame>();
+	WorldClock::IsFixDeltaTime(true);
 
 	Framework::initialize();
 }

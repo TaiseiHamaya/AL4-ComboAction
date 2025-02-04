@@ -32,7 +32,8 @@ public:
 	void unregister_enemy(Reference<const Enemy> enemy);
 
 private:
-	void callback(__CALLBACK_ARGUMENT_DEFAULT(lhs, rhs));
+	void callback_attack(__CALLBACK_ARGUMENT_DEFAULT(lhs, rhs));
+	void callback_push(__CALLBACK_ARGUMENT_DEFAULT(lhs, rhs));
 
 private:
 	std::list<HitAnimation> hitAnimations;

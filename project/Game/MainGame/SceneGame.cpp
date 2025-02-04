@@ -164,6 +164,7 @@ void SceneGame::late_update() {
 		return;
 	}
 	collisionManager->collision("AttackCollider", "Enemy");
+	collisionManager->collision("Enemy", "Enemy");
 
 	player->late_update();
 	enemyManager->late_update();

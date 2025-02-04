@@ -11,7 +11,15 @@ GameCallback::GameCallback(
 		CallbackMapKey("AttackCollider", "Enemy"),
 		CallbackFunctions{
 			nullptr,
-			std::bind(&GameCallback::callback, this, __CALLBACK_PLACEHOLDERS_12),
+			std::bind(&GameCallback::callback_attack, this, __CALLBACK_PLACEHOLDERS_12),
+			nullptr
+		}
+	);
+	callbackFunctions.emplace(
+		CallbackMapKey("Enemy", "Enemy"),
+		CallbackFunctions{
+			nullptr,
+			std::bind(&GameCallback::callback_push, this, __CALLBACK_PLACEHOLDERS_12),
 			nullptr
 		}
 	);
@@ -59,7 +67,7 @@ void GameCallback::unregister_enemy(Reference<const Enemy> enemy) {
 	getEnemyByCollider.erase(enemy->get_collider().get());
 }
 
-void GameCallback::callback(__CALLBACK_ARGUMENT_DEFAULT(lhs, rhs)) {
+void GameCallback::callback_attack(__CALLBACK_ARGUMENT_DEFAULT(lhs, rhs)) {
 	Reference<Enemy> enemy;
 	Vector3 enemyCollisionPosition;
 	if (getEnemyByCollider.contains(lhs)) {
@@ -78,4 +86,32 @@ void GameCallback::callback(__CALLBACK_ARGUMENT_DEFAULT(lhs, rhs)) {
 	Vector3 position = enemyCollisionPosition + direction * 0.5f;
 
 	hitAnimations.emplace_back(std::move(position));
+}
+
+void GameCallback::callback_push(__CALLBACK_ARGUMENT_DEFAULT(lhs, rhs)) {
+	Reference<Enemy> lEnemy;
+	Reference<Enemy> rEnemy;
+	if (getEnemyByCollider.contains(lhs)) {
+		lEnemy = getEnemyByCollider.at(lhs);
+	}
+	if (getEnemyByCollider.contains(rhs)) {
+		rEnemy = getEnemyByCollider.at(rhs);
+	}
+
+	Vector3 distance = lEnemy->world_position() - rEnemy->world_position();
+	Vector3 normalized = distance.normalize_safe();
+	float lForce = Vector3::Projection(lEnemy->get_velocity(), normalized).length();
+	float rForce = Vector3::Projection(rEnemy->get_velocity(), normalized).length();
+
+	float pushLength = (lEnemy->get_collider()->get_radius() + rEnemy->get_collider()->get_radius()) - distance.length();
+	float forceSum = lForce + rForce;
+
+	if (lForce <= 0.01f && rForce <= 0.01f) {
+		lEnemy->translate_force(lEnemy->world_position() + normalized * pushLength * 0.01f);
+		rEnemy->translate_force(rEnemy->world_position() + -normalized * pushLength * 0.01f);
+		return;
+	}
+
+	lEnemy->translate_force(lEnemy->world_position() + normalized * pushLength * std::min(rForce / forceSum, 0.2f));
+	rEnemy->translate_force(rEnemy->world_position() + -normalized * pushLength * std::min(lForce / forceSum, 0.2f));
 }

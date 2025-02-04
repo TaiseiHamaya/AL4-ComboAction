@@ -63,9 +63,11 @@ void Enemy::update() {
 	else {
 		if (player) {
 			look_at(*player.ptr());
-			float speed = 1.0f;
-			Vector3 velocity = CVector3::FORWARD * transform.get_quaternion() * speed;
-			translate += velocity * WorldClock::DeltaSeconds();
+			if ((player->world_position() - world_position()).length() > 1.0f) {
+				float speed = 1.0f;
+				velocity = CVector3::FORWARD * transform.get_quaternion() * speed;
+				translate += velocity * WorldClock::DeltaSeconds();
+			}
 		}
 		transform.set_translate(translate);
 	}

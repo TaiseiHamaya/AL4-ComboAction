@@ -25,10 +25,13 @@ public:
 	bool is_destroy() const { return isDead; }
 
 	const Vector3& knockback_vector() const { return knockback; }
+	const Vector3& get_velocity() const { return velocity; }
+	void translate_force(const Vector3& translate_) { translate = translate_; };
 
 private:
 	Vector3 translate;
 	Vector3 direction;
+	Vector3 velocity;
 
 	std::unique_ptr<StaticMeshInstance> shadow;
 
