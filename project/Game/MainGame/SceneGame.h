@@ -7,6 +7,7 @@
 #include <Engine/Module/World/Camera/Camera3D.h>
 #include <Engine/Module/World/Collision/CollisionManager.h>
 #include <Engine/Module/World/Light/DirectionalLight/DirectionalLightInstance.h>
+#include <Engine/Module/World/Sprite/SpriteInstance.h>
 #include <Engine/Module/World/WorldManager.h>
 
 #include "Game/MainGame/Instance/Camera/FollowCamera.h"
@@ -43,6 +44,8 @@ private:
 	std::unique_ptr<StaticMeshInstance> playerShadow;
 	std::unique_ptr<EnemyManager> enemyManager;
 	std::unique_ptr<StaticMeshInstance> skydome;
+
+	std::unique_ptr<SpriteInstance> keySprite;
 
 	Reference<GameCallback> callback;
 };

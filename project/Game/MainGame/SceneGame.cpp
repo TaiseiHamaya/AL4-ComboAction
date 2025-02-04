@@ -6,6 +6,7 @@
 #include <Engine/Assets/Animation/Skeleton/SkeletonLibrary.h>
 #include <Engine/Assets/Audio/AudioLibrary.h>
 #include <Engine/Assets/PolygonMesh/PolygonMeshLibrary.h>
+#include <Engine/Assets/Texture/TextureLibrary.h>
 #include <Engine/Debug/DebugValues/DebugValues.h>
 #include <Engine/GraphicsAPI/DirectX/DxResource/ConstantBuffer/Material/Material.h>
 #include <Engine/GraphicsAPI/DirectX/DXSwapChain/DXSwapChain.h>
@@ -16,16 +17,18 @@
 #include <Engine/Module/Render/RenderNode/Forward/Particle/ParticleBillboardNode/ParticleBillboardNode.h>
 #include <Engine/Module/Render/RenderNode/Forward/Particle/ParticleMeshNode/ParticleMeshNode.h>
 #include <Engine/Module/Render/RenderTargetGroup/SwapChainRenderTargetGroup.h>
+#include <Engine/Module/World/Camera/Camera2D.h>
 #include <Engine/Module/World/Collision/Collider/SphereCollider.h>
-#include <Engine/Runtime/WorldClock/WorldClock.h>
 #include <Engine/Runtime/Scene/SceneManager.h>
+#include <Engine/Runtime/WorldClock/WorldClock.h>
 
-#include <Game/SceneFactoryGame.h>
 #include "Game/MainGame/Instance/Player/CollisionController/CollisionController.h"
 #include "Game/MainGame/Misc/GameCallback.h"
 #include <Engine/Module/Render/RenderNode/Debug/PrimitiveLine/PrimitiveLineNode.h>
+#include <Game/SceneFactoryGame.h>
 
 #include "Game/MainGame/Instance/Player/Actions/AttackSky.h"
+#include <Engine/Module/Render/RenderNode/2D/Sprite/SpriteNode.h>
 
 void SceneGame::load() {
 	PolygonMeshLibrary::RegisterLoadQue("./Resources/Game/Models/skydome.gltf");
@@ -37,9 +40,12 @@ void SceneGame::load() {
 	SkeletonLibrary::RegisterLoadQue("./Resources/Game/Models/Player.gltf");
 	PolygonMeshLibrary::RegisterLoadQue("./Resources/Game/Models/Enemy.gltf");
 	PolygonMeshLibrary::RegisterLoadQue("./EngineResources/Models/Collider/Sphere/SphereCollider.obj");
+	TextureLibrary::RegisterLoadQue("./Resources/Key.png");
 }
 
 void SceneGame::initialize() {
+	Camera2D::Initialize();
+
 	worldManager = eps::CreateUnique<WorldManager>();
 	CollisionController::worldManager = worldManager;
 	HitAnimation::worldManager = worldManager;
@@ -85,6 +91,9 @@ void SceneGame::initialize() {
 
 	// Light
 	directionalLight = worldManager->create<DirectionalLightInstance>();
+	
+	keySprite = eps::CreateUnique<SpriteInstance>("Key.png", Vector2{ 1.f, 0.f });
+	keySprite->get_transform().set_translate(Vector2{ EngineSettings::CLIENT_SIZE.x,0 } + Vector2{ -64, 64 });
 
 	// ---------- Rendering ---------- 
 	auto deferredRenderTarget = DeferredAdaptor::CreateGBufferRenderTarget();
@@ -111,6 +120,12 @@ void SceneGame::initialize() {
 	);
 	particleNode->set_render_target_SC(DxSwapChain::GetRenderTarget());
 
+	std::shared_ptr<SpriteNode> spriteNode;
+	spriteNode = std::make_unique<SpriteNode>();
+	spriteNode->initialize();
+	spriteNode->set_config(RenderNodeConfig::ContinueDrawAfter | RenderNodeConfig::ContinueDrawBefore);
+	spriteNode->set_render_target_SC(DxSwapChain::GetRenderTarget());
+
 #ifdef _DEBUG
 	std::shared_ptr<PrimitiveLineNode> primitiveLineNode;
 	primitiveLineNode = std::make_unique<PrimitiveLineNode>();
@@ -119,9 +134,9 @@ void SceneGame::initialize() {
 
 	renderPath = eps::CreateUnique<RenderPath>();
 #ifdef _DEBUG
-	renderPath->initialize({ deferredMeshNode,skinMeshNodeDeferred ,directionalLightingNode,particleNode,primitiveLineNode });
+	renderPath->initialize({ deferredMeshNode,skinMeshNodeDeferred ,directionalLightingNode,particleNode,spriteNode,primitiveLineNode });
 #else
-	renderPath->initialize({ deferredMeshNode,skinMeshNodeDeferred ,directionalLightingNode,particleNode });
+	renderPath->initialize({ deferredMeshNode,skinMeshNodeDeferred ,directionalLightingNode,particleNode,spriteNode });
 #endif // _DEBUG
 }
 
@@ -163,6 +178,8 @@ void SceneGame::begin_rendering() {
 	player->transfer();
 	enemyManager->transfer();
 	playerShadow->transfer();
+
+	keySprite->begin_rendering();
 }
 
 void SceneGame::late_update() {
@@ -202,6 +219,9 @@ void SceneGame::draw() const {
 	renderPath->next();
 	camera3D->register_world_projection(1);
 	callback->draw_particle();
+
+	renderPath->next();
+	keySprite->draw();
 
 	renderPath->next();
 
