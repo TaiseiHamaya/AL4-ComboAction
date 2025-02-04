@@ -1,62 +1,67 @@
 #include "SceneGame.h"
 
+#include <Library/Utility/Tools/SmartPointer.h>
+
+#include <Engine/Assets/Animation/NodeAnimation/NodeAnimationLibrary.h>
+#include <Engine/Assets/Animation/Skeleton/SkeletonLibrary.h>
+#include <Engine/Assets/Audio/AudioLibrary.h>
+#include <Engine/Assets/PolygonMesh/PolygonMeshLibrary.h>
 #include <Engine/Debug/DebugValues/DebugValues.h>
+#include <Engine/GraphicsAPI/DirectX/DxResource/ConstantBuffer/Material/Material.h>
+#include <Engine/GraphicsAPI/DirectX/DXSwapChain/DXSwapChain.h>
 #include <Engine/Module/Render/RenderNode/BaseRenderNode.h>
-#include <Engine/Module/Render/RenderNode/Object3DNode/Object3DNode.h>
-#include <Engine/Module/Render/RenderNode/SkinningMesh/SkinningMeshNode.h>
-#include <Engine/Module/Render/RenderNode/Particle/ParticleBillboardNode/ParticleBillboardNode.h>
-#include <Engine/Module/Render/RenderNode/Particle/ParticleMeshNode/ParticleMeshNode.h>
+#include <Engine/Module/Render/RenderNode/Deferred/Lighting/DirectionalLighingNode.h>
+#include <Engine/Module/Render/RenderNode/Deferred/Mesh/SkinningMeshNodeDeferred.h>
+#include <Engine/Module/Render/RenderNode/Deferred/Mesh/StaticMeshNodeDeferred.h>
+#include <Engine/Module/Render/RenderNode/Forward/Particle/ParticleBillboardNode/ParticleBillboardNode.h>
+#include <Engine/Module/Render/RenderNode/Forward/Particle/ParticleMeshNode/ParticleMeshNode.h>
 #include <Engine/Module/Render/RenderTargetGroup/SwapChainRenderTargetGroup.h>
 #include <Engine/Module/World/Collision/Collider/SphereCollider.h>
-#include <Engine/Rendering/DirectX/DirectXSwapChain/DirectXSwapChain.h>
-#include <Engine/Resources/Audio/AudioManager.h>
 #include <Engine/Runtime/WorldClock/WorldClock.h>
-#include <Engine/Utility/Tools/SmartPointer.h>
-#include "Engine/Rendering/DirectX/DirectXResourceObject/ConstantBuffer/Material/Material.h"
-
-#include <Engine/Resources/Animation/NodeAnimation/NodeAnimationManager.h>
-#include <Engine/Resources/Animation/Skeleton/SkeletonManager.h>
-#include <Engine/Resources/PolygonMesh/PolygonMeshManager.h>
 
 #include "Game/MainGame/Instance/Player/CollisionController/CollisionController.h"
 #include "Game/MainGame/Misc/GameCallback.h"
+#include <Engine/Module/Render/RenderNode/Debug/PrimitiveLine/PrimitiveLineNode.h>
 
 void SceneGame::load() {
-	PolygonMeshManager::RegisterLoadQue("./Resources/Game/Models/skydome.gltf");
-	PolygonMeshManager::RegisterLoadQue("./Resources/Game/Models/shadow.gltf");
-	PolygonMeshManager::RegisterLoadQue("./Resources/Game/Models/Particle01.gltf");
-	PolygonMeshManager::RegisterLoadQue("./Resources/Game/Models/HitParticle.gltf");
-	PolygonMeshManager::RegisterLoadQue("./Resources/Game/Models/Player.gltf");
-	NodeAnimationManager::RegisterLoadQue("./Resources/Game/Models/Player.gltf");
-	SkeletonManager::RegisterLoadQue("./Resources/Game/Models/Player.gltf");
-	PolygonMeshManager::RegisterLoadQue("./Resources/Game/Models/Enemy.gltf");
-	PolygonMeshManager::RegisterLoadQue("./EngineResources/Models/Collider/Sphere/SphereCollider.obj");
+	PolygonMeshLibrary::RegisterLoadQue("./Resources/Game/Models/skydome.gltf");
+	PolygonMeshLibrary::RegisterLoadQue("./Resources/Game/Models/shadow.gltf");
+	PolygonMeshLibrary::RegisterLoadQue("./Resources/Game/Models/Particle01.gltf");
+	PolygonMeshLibrary::RegisterLoadQue("./Resources/Game/Models/HitParticle.gltf");
+	PolygonMeshLibrary::RegisterLoadQue("./Resources/Game/Models/Player.gltf");
+	NodeAnimationLibrary::RegisterLoadQue("./Resources/Game/Models/Player.gltf");
+	SkeletonLibrary::RegisterLoadQue("./Resources/Game/Models/Player.gltf");
+	PolygonMeshLibrary::RegisterLoadQue("./Resources/Game/Models/Enemy.gltf");
+	PolygonMeshLibrary::RegisterLoadQue("./EngineResources/Models/Collider/Sphere/SphereCollider.obj");
 }
 
 void SceneGame::initialize() {
+	worldManager = eps::CreateUnique<WorldManager>();
+	CollisionController::worldManager = worldManager;
+	HitAnimation::worldManager = worldManager;
 	// Allocation
-	player = eps::CreateUnique<Player>();
+	player = worldManager->create<Player>();
 
 	Enemy::player = player;
-	skydome = eps::CreateUnique<MeshInstance>("skydome.gltf");
+	skydome = worldManager->create<StaticMeshInstance>(nullptr, false, "skydome.gltf");
 	skydome->get_transform().set_scale(CVector3::BASIS * 100);
-	skydome->get_materials()[0].lightType = LighingType::None;
-	skydome->begin_rendering();
-	playerShadow = eps::CreateUnique<MeshInstance>("shadow.gltf");
+	skydome->get_materials()[0].lightingType = LighingType::None;
+	playerShadow = worldManager->create<StaticMeshInstance>(nullptr, false, "shadow.gltf");
 	// ---------- Managers ---------- 
 	collisionManager = std::make_unique<CollisionManager>();
 	auto callbackTemp = eps::CreateUnique<GameCallback>(player);
-	enemyManager = eps::CreateUnique<EnemyManager>(collisionManager, callbackTemp);
+	enemyManager = eps::CreateUnique<EnemyManager>(collisionManager, callbackTemp, worldManager);
 	callback = callbackTemp;
 
 	collisionManager->set_callback_manager(std::move(callbackTemp));
-	CollisionController::collisionManager = collisionManager.get();
+	CollisionController::collisionManager = collisionManager;
 
+	directionalLightingExecutor = eps::CreateUnique<DirectionalLightingExecutor>(1);
 
 	// ---------- WorldInstances ---------- 
 
 	// Camera
-	camera3D = std::make_unique<FollowCamera>();
+	camera3D = worldManager->create<FollowCamera>();
 	camera3D->initialize();
 	camera3D->set_transform({
 		CVector3::BASIS,
@@ -66,44 +71,53 @@ void SceneGame::initialize() {
 
 	Particle::lookAtDefault = camera3D.get();
 	HitAnimation::camera = camera3D;
+	Billboard::camera = camera3D;
 
 	CollisionController::parent = player;
 	player->initialize(camera3D);
 
 	camera3D->set_target(player);
 
-	//enemy = eps::CreateUnique<Enemy>(player);
-	//collisionManager->register_collider("Enemy", enemy->get_collider());
-	//callback->register_enemy(enemy);
-
 	// Light
-	directionalLight = eps::CreateUnique<DirectionalLightInstance>();
+	directionalLight = worldManager->create<DirectionalLightInstance>();
 
 	// ---------- Rendering ---------- 
-	auto meshNode = eps::CreateShared<Object3DNode>();
-	meshNode->initialize();
-	meshNode->set_config(
-		RenderNodeConfig::ContinueDrawBefore | RenderNodeConfig::ContinueUseDpehtBefore);
-	meshNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
+	auto deferredRenderTarget = DeferredAdaptor::CreateGBufferRenderTarget();
 
-	auto skinningMeshNode = eps::CreateShared<SkinningMeshNode>();
-	skinningMeshNode->initialize();
-	skinningMeshNode->set_config(
-		RenderNodeConfig::ContinueDrawBefore | RenderNodeConfig::ContinueUseDpehtBefore |
-		RenderNodeConfig::ContinueDrawAfter | RenderNodeConfig::ContinueUseDpehtAfter
-	);
-	skinningMeshNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
+	auto deferredMeshNode = eps::CreateShared<StaticMeshNodeDeferred>();
+	deferredMeshNode->initialize();
+	deferredMeshNode->set_render_target(deferredRenderTarget);
+	deferredMeshNode->set_config(RenderNodeConfig::ContinueDrawBefore | RenderNodeConfig::ContinueUseDpehtBefore);
+
+	auto skinMeshNodeDeferred = eps::CreateShared<SkinningMeshNodeDeferred>();
+	skinMeshNodeDeferred->initialize();
+	skinMeshNodeDeferred->set_render_target(deferredRenderTarget);
+	skinMeshNodeDeferred->set_config(RenderNodeConfig::ContinueDrawAfter | RenderNodeConfig::ContinueUseDpehtAfter);
+
+	auto directionalLightingNode = eps::CreateShared<DirectionalLightingNode>();
+	directionalLightingNode->initialize();
+	directionalLightingNode->set_render_target_SC(DxSwapChain::GetRenderTarget());
+	directionalLightingNode->set_gbuffers(deferredRenderTarget);
 
 	auto particleNode = eps::CreateShared<ParticleMeshNode>();
 	particleNode->initialize();
 	particleNode->set_config(
-		RenderNodeConfig::ContinueDrawBefore |
-		RenderNodeConfig::ContinueDrawAfter | RenderNodeConfig::ContinueUseDpehtAfter
+		RenderNodeConfig::NoClearDepth | RenderNodeConfig::ContinueDrawAfter
 	);
-	particleNode->set_render_target_SC(DirectXSwapChain::GetRenderTarget());
+	particleNode->set_render_target_SC(DxSwapChain::GetRenderTarget());
+
+#ifdef _DEBUG
+	std::shared_ptr<PrimitiveLineNode> primitiveLineNode;
+	primitiveLineNode = std::make_unique<PrimitiveLineNode>();
+	primitiveLineNode->initialize();
+#endif // _DEBUG
 
 	renderPath = eps::CreateUnique<RenderPath>();
-	renderPath->initialize({ meshNode, skinningMeshNode, particleNode });
+#ifdef _DEBUG
+	renderPath->initialize({ deferredMeshNode,skinMeshNodeDeferred ,directionalLightingNode,particleNode,primitiveLineNode });
+#else
+	renderPath->initialize({ deferredMeshNode,skinMeshNodeDeferred ,directionalLightingNode,particleNode });
+#endif // _DEBUG
 }
 
 void SceneGame::update() {
@@ -125,12 +139,14 @@ void SceneGame::update() {
 }
 
 void SceneGame::begin_rendering() {
-	camera3D->update_matrix();
-	directionalLight->update_affine();
-	callback->begin_rendering();
-	player->begin_rendering();
-	enemyManager->begin_rendering();
-	playerShadow->begin_rendering();
+	worldManager->update_matrix();
+
+	camera3D->transfer();
+	directionalLightingExecutor->write_to_buffer(0, directionalLight->light_data());
+	callback->transfer();
+	player->transfer();
+	enemyManager->transfer();
+	playerShadow->transfer();
 }
 
 void SceneGame::late_update() {
@@ -139,44 +155,50 @@ void SceneGame::late_update() {
 
 	player->late_update();
 	enemyManager->late_update();
-	//if (callback->is_reset()) {
-	//	hitAnimationTimer = 0;
-	//}
 }
 
 void SceneGame::draw() const {
 	renderPath->begin();
-	camera3D->register_world(1, 5);
-	directionalLight->register_world(3);
-	// Mesh
+	camera3D->register_world_projection(1);
+	// StaticMesh
 	enemyManager->draw();
 	playerShadow->draw();
 	skydome->draw();
 	callback->draw_billboard();
 	DebugValues::ShowGrid();
 #ifdef _DEBUG
-	camera3D->debug_draw();
-	collisionManager->debug_draw3d();
+	camera3D->debug_draw_axis();
 #endif // _DEBUG
 
 	renderPath->next();
-	camera3D->register_world(1, 6);
-	directionalLight->register_world(3);
-	// AnimatedMesh
+	camera3D->register_world_projection(1);
+	// SkinningMesh
 	player->draw();
 
 	renderPath->next();
-	camera3D->register_world(1);
+	camera3D->register_world_lighting(1);
+	directionalLightingExecutor->draw_command(1);
+
+	renderPath->next();
+	camera3D->register_world_projection(1);
 	callback->draw_particle();
 
 	renderPath->next();
+
+#ifdef _DEBUG
+	camera3D->register_world_projection(1);
+	collisionManager->debug_draw3d();
+	camera3D->debug_draw_frustum();
+
+	renderPath->next();
+#endif // _DEBUG
 }
 
 #ifdef _DEBUG
 
 void SceneGame::debug_update() {
 
-	AudioManager::DebugGui();
+	AudioLibrary::DebugGui();
 
 	ImGui::Begin("WorldClock");
 	WorldClock::DebugGui();

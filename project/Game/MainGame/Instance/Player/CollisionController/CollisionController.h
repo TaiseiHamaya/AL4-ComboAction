@@ -6,11 +6,12 @@
 class SphereCollider;
 class CollisionManager;
 class WorldInstance;
+class WorldManager;
 
 #include <Library/Math/Vector3.h>
 
-#include <Engine/Utility/Template/Reference.h>
-#include <Engine/Resources/Json/JsonResource.h>
+#include <Library/Utility/Template/Reference.h>
+#include <Engine/Assets/Json/JsonAsset.h>
 
 class CollisionController {
 private:
@@ -21,7 +22,7 @@ public:
 	~CollisionController() = default;
 
 public:
-	void initialize(JsonResource json);
+	void initialize(JsonAsset json);
 	void reset();
 	void update();
 	void disable_force();
@@ -55,4 +56,5 @@ public:
 
 	inline static Reference<CollisionManager> collisionManager{ nullptr };
 	inline static Reference<WorldInstance> parent{ nullptr };
+	inline static Reference<WorldManager> worldManager{};
 };

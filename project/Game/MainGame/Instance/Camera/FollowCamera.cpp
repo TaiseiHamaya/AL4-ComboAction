@@ -11,7 +11,7 @@
 
 void FollowCamera::initialize() {
 	Camera3D::initialize();
-	set_parent(lookAtInstance);
+	reparent(lookAtInstance);
 	destingRotation =
 		Quaternion::EulerDegree(45, 0, 0);
 
@@ -79,11 +79,6 @@ void FollowCamera::update() {
 	// offsetを回転させて視線を向ける
 	Vector3 translate = offset * transform.get_quaternion();
 	transform.set_translate(translate);
-}
-
-void FollowCamera::update_matrix() {
-	lookAtInstance.update_affine();
-	Camera3D::update_matrix();
 }
 
 void FollowCamera::input() {

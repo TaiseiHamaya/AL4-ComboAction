@@ -6,7 +6,6 @@ class FollowCamera final : public Camera3D {
 public:
 	void initialize() override;
 	void update();
-	void update_matrix();
 
 	void input();
 

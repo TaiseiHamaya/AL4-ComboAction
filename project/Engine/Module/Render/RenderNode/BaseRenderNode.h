@@ -1,13 +1,14 @@
 #pragma once
 
+#include <memory>
+
+#include <Library/Utility/Template/bitflag.h>
+
+#include <Engine/Module/Render/RenderTargetGroup/BaseRenderTargetGroup.h>
+
 class DepthStencil;
 class PipelineState;
 enum D3D_PRIMITIVE_TOPOLOGY;
-
-#include <memory>
-
-#include <Engine/Module/Render/RenderTargetGroup/BaseRenderTargetGroup.h>
-#include <Engine/Utility/Template/bitflag.h>
 
 enum class RenderNodeConfig : std::uint8_t {
 	Default = 0,
@@ -22,7 +23,6 @@ enum class RenderNodeConfig : std::uint8_t {
 	ContinueDrawAfter = NoClearRenderTarget | NoChangeStateBegin,
 	ContinueUseDpehtBefore = NoChangeDepthStateEnd,
 	ContinueUseDpehtAfter = NoClearDepth | NoChangeDepthStateBegin,
-
 };
 
 // BitFlag型を使用
@@ -47,7 +47,7 @@ public:
 	/// <summary>
 	/// 使用決定時処理
 	/// </summary>
-	//virtual void use() = 0;
+	virtual void preprocess() = 0;
 
 	/// <summary>
 	/// 描画開始

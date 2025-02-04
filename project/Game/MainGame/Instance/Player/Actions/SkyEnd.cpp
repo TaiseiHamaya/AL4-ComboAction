@@ -2,7 +2,7 @@
 
 #include "../Player.h"
 
-#include <Engine/Resources/Animation/NodeAnimation/NodeAnimationPlayer.h>
+#include <Engine/Assets/Animation/NodeAnimation/NodeAnimationPlayer.h>
 
 SkyEnd::SkyEnd() {
 	useAnimationName = "SkyEnd";

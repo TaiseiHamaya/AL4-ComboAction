@@ -1,50 +1,16 @@
-#include "Engine/Application/WinApp.h"
+#include <windows.h>
 
-#include "Engine/Runtime/Scene/SceneManager.h"
-#include "TestCode/SceneDemo.h"
+#include <memory>
 
-#include "Game/Debug/DebugScene.h"
-#include "Game/Title/SceneTitle.h"
-#include "Game/MainGame/SceneGame.h"
+#include "Game/GameFramework.h"
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
-	WinApp::Initialize();
+	std::unique_ptr<Framework> framework =
+		std::make_unique<GameFramework>();
 
-#ifdef _DEBUG
-	WorldClock::IsFixDeltaTime(true);
-#endif // _DEBUG
+	framework->run();
 
-#ifdef _DEBUG
-	SceneManager::Initialize(std::make_unique<DebugScene>());
-#else
-	//SceneManager::Initialize(std::make_unique<SceneTitle>());
-	SceneManager::Initialize(std::make_unique<SceneGame>());
-#endif // _DEBUG
+	framework.reset();
 
-
-	WinApp::ShowAppWindow();
-
-	while (true) {
-		WinApp::BeginFrame();
-
-		SceneManager::Begin();
-
-		WinApp::ProcessMessage();
-
-		if (WinApp::IsEndApp()) {
-			break;
-		}
-
-		SceneManager::Update();
-
-		SceneManager::Draw();
-
-#ifdef _DEBUG
-		SceneManager::DebugGui();
-#endif // _DEBUG
-
-		WinApp::EndFrame();
-	}
-
-	WinApp::Finalize();
+	return 0;
 }

@@ -1,20 +1,18 @@
 #include "SphereCollider.h"
 
-void SphereCollider::initialize() {
-#ifdef _DEBUG
-	colliderDrawer = std::make_unique<MeshInstance>();
-	colliderDrawer->reset_mesh("SphereCollider.obj");
-	colliderDrawer->set_parent(*this);
-#endif // _DEBUG
+SphereCollider::SphereCollider(float radius_) :
+	radius(radius_) {
 
-	set_radius(1.0f);
+#ifdef _DEBUG
+	debugMatrix = Transform3D::MakeScaleMatrix({ radius, radius , radius });
+#endif // _DEBUG
 }
 
 void SphereCollider::set_radius(float radius_) {
 	radius = radius_;
 
 #ifdef _DEBUG
-	colliderDrawer->get_transform().set_scale(Vector3{ radius,radius,radius });
+	debugMatrix = Transform3D::MakeScaleMatrix({ radius, radius , radius });
 #endif // _DEBUG
 }
 

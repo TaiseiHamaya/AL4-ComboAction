@@ -3,7 +3,7 @@
 #include "Actions/Idle.h"
 
 Player::Player() :
-	AnimatedMeshInstance("Player.gltf") {
+	SkinningMeshInstance("Player.gltf") {
 }
 
 void Player::initialize(Reference<const WorldInstance> camera) {
@@ -13,7 +13,7 @@ void Player::initialize(Reference<const WorldInstance> camera) {
 }
 
 void Player::begin() {
-	AnimatedMeshInstance::begin();
+	SkinningMeshInstance::begin();
 	if (!nowAction) {
 		set_action(0);
 	}
@@ -45,7 +45,7 @@ void Player::update() {
 #include <imgui.h>
 void Player::debug_gui() {
 	ImGui::Begin("Player");
-	AnimatedMeshInstance::debug_gui();
+	SkinningMeshInstance::debug_gui();
 	ImGui::End();
 
 	rootAction->debug_gui();

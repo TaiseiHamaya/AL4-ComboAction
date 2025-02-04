@@ -11,7 +11,7 @@ AttackSky::AttackSky() {
 	bufferingableParametric = 0.0f;
 	transitionableParametric = 0.0f;
 	loopAnimation = false;
-	collisionController.initialize(JsonResource{ CollisionController::ActionJsonDir / "sky.json" });
+	collisionController.initialize(JsonAsset{ CollisionController::ActionJsonDir / "sky.json" });
 
 	actionTree.emplace_back(std::make_unique<SkyEnd>());
 #ifdef _DEBUG

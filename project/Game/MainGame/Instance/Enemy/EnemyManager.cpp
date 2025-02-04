@@ -6,51 +6,54 @@
 
 #include <Engine/Module/World/Collision/Collider/SphereCollider.h>
 #include <Engine/Module/World/Collision/CollisionManager.h>
+#include <Engine/Module/World/WorldManager.h>
 
-EnemyManager::EnemyManager(Reference<CollisionManager> collisionManager_, Reference<GameCallback> callback_) :
+EnemyManager::EnemyManager(Reference<CollisionManager> collisionManager_, Reference<GameCallback> callback_, Reference<WorldManager> worldManager_) :
 	collisionManager(collisionManager_),
-	callback(callback_) {
+	callback(callback_),
+	worldManager(worldManager_) {
 	add_enemy(Vector3{ 0,0,0 });
 	add_enemy(Vector3{ 2,0,0 });
 }
 
 void EnemyManager::begin() {
-	for (Enemy& enemy : enemies) {
-		enemy.begin();
+	for (std::unique_ptr<Enemy>& enemy : enemies) {
+		enemy->begin();
 	}
 }
 
 void EnemyManager::update() {
-	for (Enemy& enemy : enemies) {
-		enemy.update();
+	for (std::unique_ptr<Enemy>& enemy : enemies) {
+		enemy->update();
 	}
 }
 
-void EnemyManager::begin_rendering() {
-	for (Enemy& enemy : enemies) {
-		enemy.begin_rendering();
+void EnemyManager::transfer() {
+	for (std::unique_ptr<Enemy>& enemy : enemies) {
+		enemy->transfer();
 	}
 }
 
 void EnemyManager::late_update() {
-	for (Enemy& enemy : enemies) {
-		enemy.late_update();
+	for (std::unique_ptr<Enemy>& enemy : enemies) {
+		enemy->late_update();
 	}
 }
 
 void EnemyManager::draw() const {
-	for (const Enemy& enemy : enemies) {
-		enemy.draw();
+	for (const std::unique_ptr<Enemy>& enemy : enemies) {
+		enemy->draw();
 	}
 }
 
 void EnemyManager::add_enemy(Vector3 position) {
-	Enemy& enemy = enemies.emplace_back(position);
+	std::unique_ptr<Enemy>& enemy = enemies.emplace_back(worldManager->create<Enemy>(nullptr, false, position));
+	enemy->initialize();
 	callback->register_enemy(enemy);
-	collisionManager->register_collider("Enemy", enemy.get_collider());
+	collisionManager->register_collider("Enemy", enemy->get_collider());
 }
 
-std::list<Enemy>::iterator EnemyManager::erase_enemy(const std::list<Enemy>::iterator& itr) {
-	callback->unregister_enemy(std::to_address(itr));
+std::list<std::unique_ptr<Enemy>>::iterator EnemyManager::erase_enemy(const std::list<std::unique_ptr<Enemy>>::iterator& itr) {
+	callback->unregister_enemy((*itr).get());
 	return enemies.erase(itr);
 }

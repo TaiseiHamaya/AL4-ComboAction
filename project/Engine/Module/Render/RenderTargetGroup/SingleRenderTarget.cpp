@@ -1,8 +1,8 @@
 #include "SingleRenderTarget.h"
 
-#include "Engine/Rendering/DirectX/DirectXCommand/DirectXCommand.h"
-#include "Engine/Rendering/DirectX/DirectXResourceObject/DepthStencil/DepthStencil.h"
-#include "Engine/Rendering/DirectX/DirectXResourceObject/OffscreenRender/OffscreenRender.h"
+#include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
+#include "Engine/GraphicsAPI/DirectX/DxResource/DepthStencil/DepthStencil.h"
+#include "Engine/GraphicsAPI/DirectX/DxResource/OffscreenRender/OffscreenRender.h"
 
 SingleRenderTarget::SingleRenderTarget() = default;
 
@@ -12,10 +12,10 @@ void SingleRenderTarget::initialize() {
 	initialize(EngineSettings::CLIENT_WIDTH, EngineSettings::CLIENT_HEIGHT);
 }
 
-void SingleRenderTarget::initialize(std::uint32_t width, std::uint32_t hight) {
+void SingleRenderTarget::initialize(std::uint32_t width, std::uint32_t height) {
 	renderTarget = std::make_unique<OffscreenRender>();
-	renderTarget->initialize(width, hight);
-	create_view_port(width, hight);
+	renderTarget->initialize(width, height);
+	create_view_port(width, height);
 }
 
 const OffscreenRender& SingleRenderTarget::offscreen_render() const {
@@ -27,7 +27,7 @@ OffscreenRender& SingleRenderTarget::offscreen_render() {
 }
 
 void SingleRenderTarget::set_render_target(const std::shared_ptr<DepthStencil>& depthStencil) {
-	auto&& commandList = DirectXCommand::GetCommandList();
+	auto&& commandList = DxCommand::GetCommandList();
 	commandList->OMSetRenderTargets(
 		1, &renderTarget->get_cpu_handle(),
 		depthStencil ? 1 : 0,

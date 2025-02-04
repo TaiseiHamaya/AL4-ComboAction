@@ -1,15 +1,16 @@
 #include "HitAnimation.h"
 
-#include <Engine/Utility/Tools/SmartPointer.h>
+#include <Library/Utility/Tools/SmartPointer.h>
 
-#include <Engine/Rendering/DirectX/DirectXResourceObject/ConstantBuffer/Material/Material.h>
+#include <Engine/GraphicsAPI/DirectX/DxResource/ConstantBuffer/Material/Material.h>
 #include <Engine/Runtime/WorldClock/WorldClock.h>
+#include <Engine/Module/World/WorldManager.h>
 
 HitAnimation::HitAnimation(Vector3&& position) {
-	emitter = eps::CreateUnique<ParticleEmitterInstance>("./Resources/Game/Json/Particles.json", 128);
+	emitter = worldManager->create<ParticleEmitterInstance>(nullptr, false, "./Resources/Game/Json/Particles.json", 128);
 
-	hitBillboard = eps::CreateUnique<MeshInstance>("HitParticle.gltf");
-	hitBillboard->get_materials()[0].lightType = LighingType::None;
+	hitBillboard = worldManager->create<Billboard>(nullptr, false, "HitParticle.gltf");
+	hitBillboard->get_materials()[0].lightingType = LighingType::None;
 
 	emitter->get_transform().set_translate(position);
 	emitter->emit();
@@ -34,10 +35,9 @@ void HitAnimation::update() {
 	);
 }
 
-void HitAnimation::begin_rendering() {
-	hitBillboard->look_at(*camera.ptr());
-	hitBillboard->begin_rendering();
-	emitter->begin_rendering();
+void HitAnimation::transfer() {
+	hitBillboard->transfer();
+	emitter->transfer();
 }
 
 void HitAnimation::draw_billboard() const {
@@ -50,4 +50,12 @@ void HitAnimation::draw_particle() const {
 
 bool HitAnimation::is_end() const {
 	return emitter->is_end_all() && hitAnimationTimer >= 0.5f;
+}
+
+Billboard::Billboard(std::string name) :
+	StaticMeshInstance(name) {
+}
+
+void Billboard::fixed_update() {
+	look_at(*camera.ptr());
 }

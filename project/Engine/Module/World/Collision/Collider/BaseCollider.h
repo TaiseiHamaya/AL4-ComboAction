@@ -4,35 +4,28 @@
 
 #include "Engine/Module/World/WorldInstance/WorldInstance.h"
 
-#ifdef _DEBUG
-#include <Engine/Module/World/Mesh/MeshInstance.h>
-#endif // _DEBUG
-
 class BaseCollider : public WorldInstance {
 public:
 	BaseCollider();
 	~BaseCollider() = default;
 
 public:
-	virtual void initialize() = 0;
-	virtual void update();
-
-public:
-	virtual constexpr std::string type() const = 0;
 	const std::string& group() const noexcept;
 
 public:
 	void set_group_name(const std::string& name);
 
+#ifdef _DEBUG
+	Matrix4x4 debug_matrix() const;
+#endif // _DEBUG
+
+
 private:
 	const std::string* groupName;
 
 #ifdef _DEBUG
-public:
-	MeshInstance& get_collider_drawer() const;
-
 protected:
-	std::unique_ptr<MeshInstance> colliderDrawer;
+	Matrix4x4 debugMatrix;
 #endif // _DEBUG
 };
 
