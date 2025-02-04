@@ -121,6 +121,10 @@ void SceneGame::initialize() {
 }
 
 void SceneGame::update() {
+	if (enemyManager->is_hitstop()) {
+		enemyManager->begin();
+		return;
+	}
 	player->begin();
 	callback->begin();
 	enemyManager->begin();
@@ -139,6 +143,9 @@ void SceneGame::update() {
 }
 
 void SceneGame::begin_rendering() {
+	if (enemyManager->is_hitstop()) {
+		return;
+	}
 	worldManager->update_matrix();
 
 	camera3D->transfer();
@@ -151,6 +158,9 @@ void SceneGame::begin_rendering() {
 
 void SceneGame::late_update() {
 	collisionManager->update();
+	if (enemyManager->is_hitstop()) {
+		return;
+	}
 	collisionManager->collision("AttackCollider", "Enemy");
 
 	player->late_update();

@@ -7,6 +7,7 @@
 #include <Engine/Module/World/Collision/Collider/SphereCollider.h>
 #include <Engine/Module/World/Collision/CollisionManager.h>
 #include <Engine/Module/World/WorldManager.h>
+#include <Engine/Runtime/WorldClock/WorldClock.h>
 
 EnemyManager::EnemyManager(Reference<CollisionManager> collisionManager_, Reference<GameCallback> callback_, Reference<WorldManager> worldManager_) :
 	collisionManager(collisionManager_),
@@ -17,6 +18,13 @@ EnemyManager::EnemyManager(Reference<CollisionManager> collisionManager_, Refere
 }
 
 void EnemyManager::begin() {
+	hitStopTimer -= WorldClock::DeltaSeconds();
+	if (hitStopTimer <= 0) {
+		isHitStop = false;
+	}
+	else {
+		return;
+	}
 	for (std::unique_ptr<Enemy>& enemy : enemies) {
 		enemy->begin();
 	}
@@ -26,6 +34,13 @@ void EnemyManager::update() {
 	for (std::unique_ptr<Enemy>& enemy : enemies) {
 		enemy->update();
 	}
+
+	auto removed = enemies.remove_if([&](const auto& elem) {
+		if (elem->is_destroy()) {
+			return true;
+		}
+		return false;
+	});
 }
 
 void EnemyManager::transfer() {

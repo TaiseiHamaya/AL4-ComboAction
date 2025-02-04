@@ -33,6 +33,7 @@ inline std::unique_ptr<T> WorldManager::create(Reference<const WorldInstance> pa
 	std::unique_ptr<T> instance = std::make_unique<T>(args...);
 	Reference<WorldInstance> ref = instance;
 	ref->set_world_manager(this);
+	ref->update_affine();
 	ref->reparent(parent, isKeepPose);
 	return std::move(instance);
 }

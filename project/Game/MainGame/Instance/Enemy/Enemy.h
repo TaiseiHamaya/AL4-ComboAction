@@ -22,6 +22,8 @@ public:
 	void take_damage(float Time);
 	const std::shared_ptr<SphereCollider>& get_collider() const { return collider; };
 
+	bool is_destroy() const { return isDestroy; }
+
 private:
 	Vector3 translate;
 	Vector3 direction;
@@ -29,9 +31,13 @@ private:
 	std::unique_ptr<StaticMeshInstance> shadow;
 
 	float invincibleTimer{ 0 };
-	std::shared_ptr<SphereCollider> collider;
 
 	Vector3 knockback;
+	std::shared_ptr<SphereCollider> collider;
+
+	float hitPoint{15};
+	bool isDead{ false };
+	bool isDestroy{ false };
 
 public:
 	inline static Reference<WorldInstance> player{};

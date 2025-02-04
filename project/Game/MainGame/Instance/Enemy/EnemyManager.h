@@ -23,6 +23,7 @@ public:
 	void draw() const;
 
 public:
+	bool is_hitstop() const { return isHitStop; }
 	void add_enemy(Vector3 position);
 	std::list<std::unique_ptr<Enemy>>::iterator erase_enemy(const std::list<std::unique_ptr<Enemy>>::iterator& itr);
 
@@ -32,4 +33,7 @@ private:
 	Reference<GameCallback> callback;
 	Reference<CollisionManager> collisionManager;
 	Reference<WorldManager> worldManager;
+	float hitStopTimer{ 0 };
+	bool isHitStop{ false };
+
 };

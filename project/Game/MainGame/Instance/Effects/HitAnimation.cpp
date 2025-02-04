@@ -13,10 +13,14 @@ HitAnimation::HitAnimation(Vector3&& position) {
 	hitBillboard->get_materials()[0].lightingType = LighingType::None;
 
 	emitter->get_transform().set_translate(position);
+	emitter->update_affine();
 	emitter->emit();
 
-	const Quaternion rotation = camera->get_transform().get_quaternion();
-	hitBillboard->get_transform().set_translate(position + -CVector3::BASIS_Z * rotation);
+	hitBillboard->get_transform().set_translate(position);
+	hitBillboard->fixed_update();
+	hitBillboard->update_affine();
+	const Quaternion rotation = hitBillboard->get_transform().get_quaternion();
+	hitBillboard->get_transform().plus_translate(CVector3::BASIS_Z * rotation);
 	hitAnimationTimer = 0;
 }
 
