@@ -21,6 +21,10 @@ CollisionController::CollisionController() {
 
 void CollisionController::initialize(JsonResource json) {
 	float colliderSize = json.try_emplace<float>("ColliderSize");
+#ifdef _DEBUG
+	debugValue.colliderSize = colliderSize;
+#endif // _DEBUG
+
 	collider->set_radius(colliderSize);
 	BeginTime = json.try_emplace<float>("BeginTime");
 	EndTime = json.try_emplace<float>("EndTime");

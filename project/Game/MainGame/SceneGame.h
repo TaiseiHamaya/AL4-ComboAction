@@ -6,10 +6,9 @@
 #include <Engine/Module/World/Light/DirectionalLight/DirectionalLightInstance.h>
 #include <Engine/Module/World/Camera/Camera3D.h>
 #include <Engine/Module/World/Collision/CollisionManager.h>
-#include <Engine/Module/World/Particle/ParticleEmitterInstance.h>
 
 #include "Game/MainGame/Instance/Player/Player.h"
-#include "Game/MainGame/Instance/Enemy/Enemy.h"
+#include "Game/MainGame/Instance/Enemy/EnemyManager.h"
 #include "Game/MainGame/Instance/Camera/FollowCamera.h"
 #include "Game/MainGame/Misc/GameCallback.h"
 
@@ -29,19 +28,16 @@ public:
 
 private:
 	std::unique_ptr<RenderPath> renderPath;
+	
 	std::unique_ptr<DirectionalLightInstance> directionalLight;
 	std::unique_ptr<CollisionManager> collisionManager;
+
 	std::unique_ptr<FollowCamera> camera3D;
 
 	std::unique_ptr<Player> player;
-	std::unique_ptr<Enemy> enemy;
-	std::unique_ptr<MeshInstance> hitBillbord;
-	std::unique_ptr<ParticleEmitterInstance> emitter;
-	std::unique_ptr<MeshInstance> skydome;
 	std::unique_ptr<MeshInstance> playerShadow;
-	std::unique_ptr<MeshInstance> enemyShadow;
+	std::unique_ptr<EnemyManager> enemyManager;
+	std::unique_ptr<MeshInstance> skydome;
 
-	float hitAnimationTimer{ 1000 };
-
-	GameCallback* callbackRef;
+	Reference<GameCallback> callback;
 };

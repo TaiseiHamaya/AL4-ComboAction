@@ -15,10 +15,10 @@ public:
 	Reference& operator=(Reference<T>&&) noexcept = default;
 
 public: // T, T*, unique<T>からの暗黙代入
-	Reference(const T& rhs) noexcept : reference(&rhs) {};
+	Reference(T& rhs) noexcept : reference(&rhs) {};
 	Reference(T* const rhs) noexcept : reference(rhs) {};
 	Reference(const std::unique_ptr<T>& rhs) noexcept : reference(rhs.get()) {};
-	Reference& operator=(const T& rhs) noexcept {
+	Reference& operator=(T& rhs) noexcept {
 		reference = &rhs;
 		return *this;
 	};
@@ -33,7 +33,7 @@ public: // T, T*, unique<T>からの暗黙代入
 
 public: // 型変換付きキャスト
 	template<std::convertible_to<T> U>
-	Reference& operator=(const U* rhs) noexcept {
+	Reference& operator=(U* rhs) noexcept {
 		reference = rhs;
 		return *this;
 	};
@@ -43,7 +43,7 @@ public: // 型変換付きキャスト
 		return *this;
 	};
 	template<std::convertible_to<T> U>
-	Reference(const U* rhs) noexcept { reference = rhs; };
+	Reference(U* rhs) noexcept { reference = rhs; };
 	template<std::convertible_to<T> U>
 	Reference(const std::unique_ptr<U>& rhs) noexcept { reference = rhs.get(); };
 

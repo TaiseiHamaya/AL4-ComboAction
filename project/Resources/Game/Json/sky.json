@@ -1,6 +1,6 @@
 {
 	"BeginTime": 0.0,
-	"ColliderSize": 0.0,
+	"ColliderSize": 1.0,
 	"Curve": {
 		"0.000000": {
 			"X": 0.0,

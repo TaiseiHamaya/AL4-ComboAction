@@ -7,7 +7,7 @@
 
 #include "Game/Util/RandomUtil.h"
 
-Enemy::Enemy(Reference<WorldInstance> player_) :
+Enemy::Enemy(Vector3 translate_) :
 	MeshInstance("Enemy.gltf") {
 	collider = eps::CreateUnique<SphereCollider>();
 	collider->initialize();
@@ -15,7 +15,14 @@ Enemy::Enemy(Reference<WorldInstance> player_) :
 	collider->set_radius(0.5f);
 	collider->get_transform().set_translate_y(0.5f);
 
-	player = player_;
+	shadow = eps::CreateUnique<MeshInstance>("shadow.gltf");
+
+	translate = translate_;
+}
+
+void Enemy::begin() {
+	MeshInstance::begin();
+	shadow->begin();
 }
 
 void Enemy::update() {
@@ -48,6 +55,22 @@ void Enemy::update() {
 	else {
 		transform.set_translate(translate);
 	}
+
+	shadow->update();
+	float scaleBase = 1 / (get_transform().get_translate().y + 2);
+	shadow->get_transform().set_scale({ scaleBase, scaleBase, scaleBase });
+	shadow->get_transform().set_translate(world_position());
+	shadow->get_transform().set_translate_y(0.01f);
+}
+
+void Enemy::begin_rendering() noexcept {
+	MeshInstance::begin_rendering();
+	shadow->begin_rendering();
+}
+
+void Enemy::draw() const {
+	MeshInstance::draw();
+	shadow->draw();
 }
 
 void Enemy::take_damage(float InvincibleTime) {

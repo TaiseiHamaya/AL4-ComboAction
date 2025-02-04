@@ -33,12 +33,12 @@ public:
 	// ------------------operator------------------
 	inline constexpr Vector3& operator=(const Vector3& vec) noexcept = default;
 	inline constexpr Vector3& operator=(Vector3&& vec) noexcept = default;
-	inline constexpr const Vector3 operator+(void) const noexcept;
-	inline constexpr const Vector3 operator-(void) const noexcept;
-	inline constexpr const Vector3 operator+(const Vector3& opr) const noexcept;
-	inline constexpr const Vector3 operator-(const Vector3& opr) const noexcept;
-	inline constexpr const Vector3 operator*(float times) const noexcept;
-	inline constexpr const Vector3 operator/(float times) const noexcept;
+	inline constexpr Vector3 operator+(void) const noexcept;
+	inline constexpr Vector3 operator-(void) const noexcept;
+	inline constexpr Vector3 operator+(const Vector3& opr) const noexcept;
+	inline constexpr Vector3 operator-(const Vector3& opr) const noexcept;
+	inline constexpr Vector3 operator*(float times) const noexcept;
+	inline constexpr Vector3 operator/(float times) const noexcept;
 	inline constexpr Vector3& operator+=(const Vector3& opr) noexcept;
 	inline constexpr Vector3& operator-=(const Vector3& opr) noexcept;
 	inline constexpr Vector3& operator*=(float times) noexcept;
@@ -218,27 +218,27 @@ inline constexpr Vector3::Vector3(float x, float y, float z) noexcept :
 	z(z) {
 }
 
-inline constexpr const Vector3 Vector3::operator+() const noexcept {
+inline constexpr Vector3 Vector3::operator+() const noexcept {
 	return *this;
 }
 
-inline constexpr const Vector3 Vector3::operator-() const noexcept {
+inline constexpr Vector3 Vector3::operator-() const noexcept {
 	return { -x, -y, -z };
 }
 
-inline constexpr const Vector3 Vector3::operator+(const Vector3& opr) const noexcept {
+inline constexpr Vector3 Vector3::operator+(const Vector3& opr) const noexcept {
 	return { x + opr.x, y + opr.y, z + opr.z };
 }
 
-inline constexpr const Vector3 Vector3::operator-(const Vector3& opr) const noexcept {
+inline constexpr Vector3 Vector3::operator-(const Vector3& opr) const noexcept {
 	return { x - opr.x, y - opr.y, z - opr.z };
 }
 
-inline constexpr const Vector3 Vector3::operator*(float times) const noexcept {
+inline constexpr Vector3 Vector3::operator*(float times) const noexcept {
 	return { x * times, y * times, z * times };
 }
 
-inline constexpr const Vector3 Vector3::operator/(float times) const noexcept {
+inline constexpr Vector3 Vector3::operator/(float times) const noexcept {
 	return { x / times, y / times, z / times };
 }
 

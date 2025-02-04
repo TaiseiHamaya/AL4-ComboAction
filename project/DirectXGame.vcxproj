@@ -120,6 +120,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Game\MainGame\Instance\Enemy\EnemyManager.cpp" />
     <ClCompile Include="Game\MainGame\Instance\Player\Actions\AttackSky.cpp" />
     <ClCompile Include="Game\MainGame\Instance\Camera\FollowCamera.cpp" />
     <ClCompile Include="Game\MainGame\Misc\GameCallback.cpp" />
@@ -128,6 +129,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\MainGame\Instance\Player\Actions\ComboConnector.cpp" />
     <ClCompile Include="Game\MainGame\Instance\Player\CollisionController\CollisionController.cpp" />
     <ClCompile Include="Game\MainGame\Instance\Player\Actions\AttackActionFirst.cpp" />
+    <ClCompile Include="Game\MainGame\Instance\Effects\HitAnimation.cpp" />
     <ClCompile Include="Library\Math\Affine.cpp" />
     <ClCompile Include="Library\Math\Basis.cpp" />
     <ClCompile Include="Game\MainGame\Instance\Player\Actions\Dash.cpp" />
@@ -245,6 +247,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Game\Util\TriggerOnce\TriggerOnce.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Game\MainGame\Instance\Enemy\EnemyManager.h" />
     <ClInclude Include="Game\MainGame\Instance\Player\Actions\AttackSky.h" />
     <ClInclude Include="Game\MainGame\Instance\Camera\FollowCamera.h" />
     <ClInclude Include="Game\MainGame\Misc\GameCallback.h" />
@@ -254,6 +257,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Game\MainGame\Instance\Player\Actions\ComboConnector.h" />
     <ClInclude Include="Game\MainGame\Instance\Player\Actions\AttackActionFirst.h" />
     <ClInclude Include="Game\Util\RandomUtil.h" />
+    <ClInclude Include="Game\MainGame\Instance\Effects\HitAnimation.h" />
     <ClInclude Include="Library\Math\Affine.h" />
     <ClInclude Include="Library\Math\Basis.h" />
     <ClInclude Include="Game\MainGame\Instance\Player\Actions\Dash.h" />

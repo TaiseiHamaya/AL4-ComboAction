@@ -9,11 +9,11 @@
 #include <Engine/Module/World/Mesh/MeshInstance.h>
 #include <Engine/Utility/Template/Reference.h>
 
+#include "Game/MainGame/Instance/Effects/HitAnimation.h"
+
 class GameCallback final : public CollisionCallbackManager {
 public:
 	GameCallback(
-		Reference<ParticleEmitterInstance> emitter_,
-		Reference<MeshInstance> mesh,
 		Reference<const WorldInstance> player
 	);
 	~GameCallback() = default;
@@ -21,20 +21,21 @@ public:
 	__NON_COPYABLE_CLASS(GameCallback)
 
 public:
+	void begin();
 	void update();
-	void register_enemy(Reference<Enemy> enemy);
+	void begin_rendering();
+	void draw_billboard() const;
+	void draw_particle() const;
 
 public:
-	bool is_reset() const { return onCollision; };
+	void register_enemy(Reference<Enemy> enemy);
+	void unregister_enemy(Reference<const Enemy> enemy);
 
 private:
 	void Callback(__CALLBACK_ARGUMENT_DEFAULT(lhs, rhs));
 
 private:
-	bool onCollision{ false };
-
-	Reference<ParticleEmitterInstance> emitter;
-	Reference<MeshInstance> mesh;
+	std::list<HitAnimation> hitAnimations;
 	Reference<const WorldInstance> player;
 	std::unordered_map<BaseCollider*, Reference<Enemy>> getEnemyByCollider;
 };

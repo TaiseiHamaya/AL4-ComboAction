@@ -8,11 +8,14 @@ class SphereCollider;
 
 class Enemy : public MeshInstance {
 public:
-	Enemy(Reference<WorldInstance> player_);
+	Enemy(Vector3 translate);
 	~Enemy() = default;
 
 public:
+	void begin() override;
 	void update() override;
+	void begin_rendering() noexcept override;
+	void draw() const override;
 
 public:
 	void take_damage(float Time);
@@ -22,10 +25,13 @@ private:
 	Vector3 translate;
 	Vector3 direction;
 
+	std::unique_ptr<MeshInstance> shadow;
+
 	float invincibleTimer{ 0 };
 	std::shared_ptr<SphereCollider> collider;
 
 	Vector3 knockback;
 
-	Reference<WorldInstance> player;
+public:
+	inline static Reference<WorldInstance> player{};
 };

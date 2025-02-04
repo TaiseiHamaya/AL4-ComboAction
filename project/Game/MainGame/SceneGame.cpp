@@ -34,22 +34,24 @@ void SceneGame::load() {
 }
 
 void SceneGame::initialize() {
-	emitter = eps::CreateUnique<ParticleEmitterInstance>("./Resources/Game/Json/Particles.json", 128);
+	// Allocation
 	player = eps::CreateUnique<Player>();
-	hitBillbord = eps::CreateUnique<MeshInstance>("HitParticle.gltf");
-	hitBillbord->get_materials()[0].lightType = LighingType::None;
+
+	Enemy::player = player;
 	skydome = eps::CreateUnique<MeshInstance>("skydome.gltf");
 	skydome->get_transform().set_scale(CVector3::BASIS * 100);
 	skydome->get_materials()[0].lightType = LighingType::None;
 	skydome->begin_rendering();
 	playerShadow = eps::CreateUnique<MeshInstance>("shadow.gltf");
-	enemyShadow = eps::CreateUnique<MeshInstance>("shadow.gltf");
 	// ---------- Managers ---------- 
 	collisionManager = std::make_unique<CollisionManager>();
-	auto callback = eps::CreateUnique<GameCallback>(emitter, hitBillbord, player);
-	callbackRef = callback.get();
-	collisionManager->set_callback_manager(std::move(callback));
+	auto callbackTemp = eps::CreateUnique<GameCallback>(player);
+	enemyManager = eps::CreateUnique<EnemyManager>(collisionManager, callbackTemp);
+	callback = callbackTemp;
+
+	collisionManager->set_callback_manager(std::move(callbackTemp));
 	CollisionController::collisionManager = collisionManager.get();
+
 
 	// ---------- WorldInstances ---------- 
 
@@ -63,15 +65,16 @@ void SceneGame::initialize() {
 		});
 
 	Particle::lookAtDefault = camera3D.get();
+	HitAnimation::camera = camera3D;
 
 	CollisionController::parent = player;
 	player->initialize(camera3D);
 
 	camera3D->set_target(player);
 
-	enemy = eps::CreateUnique<Enemy>(player);
-	collisionManager->register_collider("Enemy", enemy->get_collider());
-	callbackRef->register_enemy(enemy);
+	//enemy = eps::CreateUnique<Enemy>(player);
+	//collisionManager->register_collider("Enemy", enemy->get_collider());
+	//callback->register_enemy(enemy);
 
 	// Light
 	directionalLight = eps::CreateUnique<DirectionalLightInstance>();
@@ -104,48 +107,30 @@ void SceneGame::initialize() {
 }
 
 void SceneGame::update() {
-	hitAnimationTimer += WorldClock::DeltaSeconds();
 	player->begin();
-	enemy->begin();
-	hitBillbord->begin();
+	callback->begin();
+	enemyManager->begin();
 	camera3D->input();
-	callbackRef->update();
 
+	callback->update();
 	player->update();
-	enemy->update();
-	emitter->update();
-	hitBillbord->update();
+	enemyManager->update();
 	camera3D->update();
-
-	int currentFrame = static_cast<int>(std::floor(hitAnimationTimer / 0.0400f));
-	hitBillbord->get_materials()[0].uvTransform.set_translate(
-		{ std::min(currentFrame, 5) / 6.0f, 0 }
-	);
-	hitBillbord->look_at(*camera3D);
 
 	playerShadow->update();
 	float scaleBase = 1 / (player->get_transform().get_translate().y + 2);
 	playerShadow->get_transform().set_scale({ scaleBase, scaleBase, scaleBase });
 	playerShadow->get_transform().set_translate(player->world_position());
 	playerShadow->get_transform().set_translate_y(0.01f);
-
-	enemyShadow->update();
-	scaleBase = 1 / (enemy->get_transform().get_translate().y + 2);
-	enemyShadow->get_transform().set_scale({ scaleBase, scaleBase, scaleBase });
-	enemyShadow->get_transform().set_translate(enemy->world_position());
-	enemyShadow->get_transform().set_translate_y(0.01f);
 }
 
 void SceneGame::begin_rendering() {
 	camera3D->update_matrix();
 	directionalLight->update_affine();
+	callback->begin_rendering();
 	player->begin_rendering();
-	enemy->begin_rendering();
-	hitBillbord->begin_rendering();
-	emitter->begin_rendering();
+	enemyManager->begin_rendering();
 	playerShadow->begin_rendering();
-	enemyShadow->begin_rendering();
-
 }
 
 void SceneGame::late_update() {
@@ -153,11 +138,10 @@ void SceneGame::late_update() {
 	collisionManager->collision("AttackCollider", "Enemy");
 
 	player->late_update();
-	hitBillbord->late_update();
-	enemy->late_update();
-	if (callbackRef->is_reset()) {
-		hitAnimationTimer = 0;
-	}
+	enemyManager->late_update();
+	//if (callback->is_reset()) {
+	//	hitAnimationTimer = 0;
+	//}
 }
 
 void SceneGame::draw() const {
@@ -165,11 +149,10 @@ void SceneGame::draw() const {
 	camera3D->register_world(1, 5);
 	directionalLight->register_world(3);
 	// Mesh
-	enemy->draw();
-	hitBillbord->draw();
+	enemyManager->draw();
 	playerShadow->draw();
-	enemyShadow->draw();
 	skydome->draw();
+	callback->draw_billboard();
 	DebugValues::ShowGrid();
 #ifdef _DEBUG
 	camera3D->debug_draw();
@@ -184,7 +167,7 @@ void SceneGame::draw() const {
 
 	renderPath->next();
 	camera3D->register_world(1);
-	emitter->draw();
+	callback->draw_particle();
 
 	renderPath->next();
 }
@@ -213,10 +196,6 @@ void SceneGame::debug_update() {
 
 	ImGui::Begin("Player");
 	player->debug_gui();
-	ImGui::End();
-
-	ImGui::Begin("HiiParticle");
-	emitter->debug_gui();
 	ImGui::End();
 }
 #endif // _DEBUG
