@@ -1,19 +1,8 @@
 #include "BaseCollider.h"
 
-#include "Library/Math/Hierarchy.h"
-
-BaseCollider::BaseCollider() {
-	hierarchy.initialize(world_affine());
+BaseCollider::BaseCollider() :
+	WorldInstance() {
 	groupName = nullptr;
-
-#ifdef _DEBUG
-	colliderDrawer = std::make_unique<MeshInstance>();
-	colliderDrawer->set_parent(*this);
-#endif // _DEBUG
-}
-
-void BaseCollider::update() {
-	update_affine();
 }
 
 const std::string& BaseCollider::group() const noexcept {
@@ -31,7 +20,9 @@ void BaseCollider::set_group_name(const std::string& name) {
 }
 
 #ifdef _DEBUG
-MeshInstance& BaseCollider::get_collider_drawer() const {
-	return *colliderDrawer;
+
+Matrix4x4 BaseCollider::debug_matrix() const {
+	return debugMatrix * Transform3D::MakeTranslateMatrix(world_position());
 }
+
 #endif // _DEBUG

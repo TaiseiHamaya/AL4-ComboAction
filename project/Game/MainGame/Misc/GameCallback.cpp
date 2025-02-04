@@ -26,11 +26,13 @@ void GameCallback::update() {
 	for (auto& animation : hitAnimations) {
 		animation.update();
 	}
+
+	hitAnimations.remove_if([](auto& elem) {return elem.is_end(); });
 }
 
-void GameCallback::begin_rendering() {
+void GameCallback::transfer() {
 	for (auto& animation : hitAnimations) {
-		animation.begin_rendering();
+		animation.transfer();
 	}
 }
 

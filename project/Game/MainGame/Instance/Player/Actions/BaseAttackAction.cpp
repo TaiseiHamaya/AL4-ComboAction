@@ -3,7 +3,7 @@
 #include "../Player.h"
 
 #include <Engine/Runtime/Input/Input.h>
-#include <Engine/Resources/Animation/NodeAnimation/NodeAnimationPlayer.h>
+#include <Engine/Assets/Animation/NodeAnimation/NodeAnimationPlayer.h>
 
 bool BaseAttackAction::triggered_key() const {
 	return Input::IsTriggerKey(KeyID::K);

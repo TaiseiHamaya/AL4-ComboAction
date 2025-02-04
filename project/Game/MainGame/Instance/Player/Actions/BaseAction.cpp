@@ -3,7 +3,7 @@
 #include "../Player.h"
 
 #include <Engine/Runtime/WorldClock/WorldClock.h>
-#include <Engine/Resources/Animation/NodeAnimation/NodeAnimationPlayer.h>
+#include <Engine/Assets/Animation/NodeAnimation/NodeAnimationPlayer.h>
 
 void BaseAction::set_player(Reference<Player> player_) {
 	player = player_;

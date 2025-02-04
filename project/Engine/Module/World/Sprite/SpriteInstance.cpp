@@ -1,14 +1,14 @@
 #include "SpriteInstance.h"
 
-#include "Library/Math/Transform2D.h"
-#include "Library/Math/VectorConverter.h"
+#include <Library/Math/Transform2D.h>
+#include <Library/Math/VectorConverter.h>
 
+#include "Engine/Assets/Texture/TextureLibrary.h"
+#include "Engine/GraphicsAPI/DirectX/DxCommand/DxCommand.h"
+#include "Engine/GraphicsAPI/DirectX/DxResource/IndexBuffer/IndexBuffer.h"
+#include "Engine/GraphicsAPI/DirectX/DxResource/Texture/Texture.h"
+#include "Engine/GraphicsAPI/DirectX/DxResource/VertexBuffer/VertexBuffer.h"
 #include "Engine/Module/World/Camera/Camera2D.h"
-#include "Engine/Rendering/DirectX/DirectXCommand/DirectXCommand.h"
-#include "Engine/Rendering/DirectX/DirectXResourceObject/IndexBuffer/IndexBuffer.h"
-#include "Engine/Rendering/DirectX/DirectXResourceObject/Texture/Texture.h"
-#include "Engine/Rendering/DirectX/DirectXResourceObject/VertexBuffer/VertexBuffer.h"
-#include "Engine/Resources/Texture/TextureManager.h"
 
 #ifdef _DEBUG
 #include <imgui.h>
@@ -25,7 +25,7 @@ SpriteInstance::SpriteInstance() :
 SpriteInstance::SpriteInstance(const std::string& textureName, const Vector2& pivot) :
 	SpriteInstance() {
 
-	texture = TextureManager::GetTexture(textureName);
+	texture = TextureLibrary::GetTexture(textureName);
 	create_local_vertices(pivot);
 	std::vector<std::uint32_t> indexData{ 0,1,2,1,3,2 };
 	indexes = std::make_unique<IndexBuffer>(indexData);
@@ -41,13 +41,13 @@ const Transform2D& SpriteInstance::get_transform() noexcept {
 	return *transform;
 }
 
-void SpriteInstance::begin_rendering() noexcept {
+void SpriteInstance::transfer() noexcept {
 	*transformMatrix->get_data() = transform->get_matrix4x4_transform() * Camera2D::GetVPMatrix();
 	material->get_data()->uvTransform = uvTransform->get_matrix4x4_transform();
 }
 
 void SpriteInstance::draw() const {
-	const Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList>& commandList = DirectXCommand::GetCommandList();
+	const Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList>& commandList = DxCommand::GetCommandList();
 	// 設定したデータをコマンドに積む
 	commandList->IASetVertexBuffers(0, 1, &vertices->get_vbv()); // VBV
 	commandList->IASetIndexBuffer(indexes->get_p_ibv());

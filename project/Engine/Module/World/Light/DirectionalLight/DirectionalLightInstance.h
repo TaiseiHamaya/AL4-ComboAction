@@ -2,7 +2,7 @@
 
 #include "../BaseLightInstance.h"
 
-#include "Library/Math/Color3.h"
+#include <Library/Math/Color3.h>
 
 struct DirectionalLightData {
 	Color3 color; // 色
@@ -21,7 +21,7 @@ public:
 	DirectionalLightInstance& operator=(DirectionalLightInstance&&) = default;
 
 public:
-	void begin_rendering() override;
+	void transfer() override;
 
 #ifdef _DEBUG
 public:

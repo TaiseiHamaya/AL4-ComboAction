@@ -6,8 +6,8 @@
 #include <unordered_map>
 #include <utility>
 
-#include "Engine/Utility/Template/SortedPair.h"
-#include "Engine/Utility/Tools/ConstructorMacro.h"
+#include <Library/Utility/Template/SortedPair.h>
+#include <Library/Utility/Tools/ConstructorMacro.h>
 
 #include "Collider/BaseCollider.h"
 
@@ -43,7 +43,6 @@ private:
 
 #define __CALLBACK_PLACEHOLDERS_12 std::placeholders::_1, std::placeholders::_2
 #define __CALLBACK_ARGUMENT_DEFAULT(first, second) BaseCollider* const first, BaseCollider* const second
-
 
 /*
 Callbackメモ

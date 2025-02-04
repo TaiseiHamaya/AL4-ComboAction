@@ -3,23 +3,23 @@
 #include <Engine/Module/World/Collision/Collider/SphereCollider.h>
 #include <Engine/Module/World/Collision/CollisionManager.h>
 #include <Engine/Module/World/WorldInstance/WorldInstance.h>
+#include <Engine/Module/World/WorldManager.h>
 #include <Engine/Runtime/WorldClock/WorldClock.h>
 
 #define VECTOR3_SERIALIZER
-#include <Engine/Resources/Json/JsonSerializer.h>
+#include <Engine/Assets/Json/JsonSerializer.h>
 
 CollisionController::CollisionController() {
-	collider = std::make_shared<SphereCollider>();
-	collider->initialize();
+	collider = worldManager->create<SphereCollider>();
 	collider->set_active(false);
 	collisionManager->register_collider("AttackCollider", collider);
 	if (parent) {
-		collider->set_parent(*parent.ptr());
+		collider->reparent(parent, false);
 	}
 	reset();
 }
 
-void CollisionController::initialize(JsonResource json) {
+void CollisionController::initialize(JsonAsset json) {
 	float colliderSize = json.try_emplace<float>("ColliderSize");
 #ifdef _DEBUG
 	debugValue.colliderSize = colliderSize;
@@ -121,7 +121,7 @@ void CollisionController::debug_gui() {
 		if (debugValue.file[0] == '\0') {
 			return;
 		}
-		JsonResource json{ ActionJsonDir / (debugValue.file + std::string(".json")) };
+		JsonAsset json{ ActionJsonDir / (debugValue.file + std::string(".json")) };
 		json.write("ColliderSize", debugValue.colliderSize);
 		json.write("BeginTime", BeginTime);
 		json.write("EndTime", EndTime);

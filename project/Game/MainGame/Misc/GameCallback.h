@@ -6,8 +6,8 @@
 
 #include <Engine/Module/World/Collision/CollisionCallbackManager.h>
 #include <Engine/Module/World/Particle/ParticleEmitterInstance.h>
-#include <Engine/Module/World/Mesh/MeshInstance.h>
-#include <Engine/Utility/Template/Reference.h>
+#include <Engine/Module/World/Mesh/StaticMeshInstance.h>
+#include <Library/Utility/Template/Reference.h>
 
 #include "Game/MainGame/Instance/Effects/HitAnimation.h"
 
@@ -23,7 +23,7 @@ public:
 public:
 	void begin();
 	void update();
-	void begin_rendering();
+	void transfer();
 	void draw_billboard() const;
 	void draw_particle() const;
 

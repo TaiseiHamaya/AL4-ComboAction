@@ -2,17 +2,20 @@
 
 #include <cassert>
 
+#include "Engine/Assets/Audio/AudioLibrary.h"
+#include "Engine/Assets/BackgroundLoader/BackgroundLoader.h"
+#include "Engine/Assets/PolygonMesh/PolygonMeshLibrary.h"
+#include "Engine/Assets/PrimitiveGeometry/PrimitiveGeometryAsset.h"
+#include "Engine/Assets/PrimitiveGeometry/PrimitiveGeometryLibrary.h"
+#include "Engine/Assets/Texture/TextureLibrary.h"
 #include "Engine/Debug/Output.h"
-#include "Engine/Rendering/DirectX/DirectXCore.h"
-#include "Engine/Resources/Audio/AudioManager.h"
-#include "Engine/Resources/BackgroundLoader/BackgroundLoader.h"
-#include "Engine/Resources/PolygonMesh/PolygonMeshManager.h"
-#include "Engine/Resources/Texture/TextureManager.h"
+#include "Engine/GraphicsAPI/DirectX/DxCore.h"
 #include "Engine/Runtime/Input/Input.h"
 #include "Engine/Runtime/Scene/SceneManager.h"
 #include "Engine/Runtime/WorldClock/WorldClock.h"
-#include "Engine/Utility/Tools/RandomEngine.h"
 #include "EngineSettings.h"
+
+#include "Library/Utility/Tools/RandomEngine.h"
 
 #pragma comment(lib, "winmm.lib")
 
@@ -67,11 +70,11 @@ void WinApp::Initialize(DWORD windowConfig) {
 
 	instance->initialize_application(windowConfig);
 	//DirectXの初期化
-	DirectXCore::Initialize();
+	DxCore::Initialize();
 	// テクスチャマネージャの初期化
-	TextureManager::Initialize();
+	TextureLibrary::Initialize();
 	// 音関連の初期化
-	AudioManager::Initialize();
+	AudioLibrary::Initialize();
 	// 入力の初期化
 	Input::Initialize();
 	// 乱数エンジンの初期化
@@ -85,10 +88,28 @@ void WinApp::Initialize(DWORD windowConfig) {
 	ImGuiManager::Initialize();
 #endif // _DEBUG
 	// システム使用のオブジェクトをロード
-	PolygonMeshManager::RegisterLoadQue("./EngineResources/Models/ErrorObject/ErrorObject.obj");
-	PolygonMeshManager::RegisterLoadQue("./EngineResources/Models/Frustum/Frustum.obj");
-	PolygonMeshManager::RegisterLoadQue("./EngineResources/Models/Grid/Grid.obj");
-	PolygonMeshManager::RegisterLoadQue("./EngineResources/Models/Camera/CameraAxis.obj");
+	PolygonMeshLibrary::RegisterLoadQue("./EngineResources/Models/ErrorObject/ErrorObject.obj");
+	PolygonMeshLibrary::RegisterLoadQue("./EngineResources/Models/Grid/Grid.obj");
+	PolygonMeshLibrary::RegisterLoadQue("./EngineResources/Models/Camera/CameraAxis.obj");
+
+#ifdef _DEBUG
+	PrimitiveGeometryLibrary::Transfer(
+		"SphereCollider",
+		std::make_shared<PrimitiveGeometryAsset>("./EngineResources/Json/PrimitiveGeometry/Collider/Sphere.json")
+	);
+	PrimitiveGeometryLibrary::Transfer(
+		"AABBCollider",
+		std::make_shared<PrimitiveGeometryAsset>("./EngineResources/Json/PrimitiveGeometry/Collider/AABB.json")
+	);
+	PrimitiveGeometryLibrary::Transfer(
+		"Frustum",
+		std::make_shared<PrimitiveGeometryAsset>("./EngineResources/Json/PrimitiveGeometry/Frustum.json")
+	);
+#endif // _DEBUG
+	PrimitiveGeometryLibrary::Transfer(
+		"Ico3",
+		std::make_shared<PrimitiveGeometryAsset>("./EngineResources/Json/PrimitiveGeometry/Ico3.json")
+	);
 
 	// 待機
 	BackgroundLoader::WaitEndExecute();
@@ -99,7 +120,7 @@ void WinApp::Initialize(DWORD windowConfig) {
 void WinApp::BeginFrame() {
 	WorldClock::Update();
 	Input::Update();
-	DirectXCore::BeginFrame();
+	DxCore::BeginFrame();
 #ifdef _DEBUG
 	ImGuiManager::BeginFrame();
 #endif // _DEBUG
@@ -111,7 +132,7 @@ void WinApp::EndFrame() {
 	ImGuiManager::EndFrame();
 #endif // _DEBUG
 
-	DirectXCore::EndFrame();
+	DxCore::EndFrame();
 
 	//instance->wait_frame();
 }
@@ -132,11 +153,11 @@ void WinApp::Finalize() {
 	ImGuiManager::Finalize();
 #endif // _DEBUG
 
-	AudioManager::Finalize();
+	AudioLibrary::Finalize();
 
-	TextureManager::Finalize();
+	TextureLibrary::Finalize();
 	//DirectXを終了
-	DirectXCore::Finalize();
+	DxCore::Finalize();
 
 	// COMの終了
 	CoUninitialize();

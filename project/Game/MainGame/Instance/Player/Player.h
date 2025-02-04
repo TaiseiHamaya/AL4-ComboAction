@@ -1,13 +1,13 @@
 #pragma once
 
-#include <Engine/Module/World/AnimatedMesh/AnimatedMeshInstance.h>
-#include <Engine/Utility/Template/Reference.h>
+#include <Engine/Module/World/Mesh/SkinningMeshInstance.h>
+#include <Library/Utility/Template/Reference.h>
 
 #include <memory>
 
 #include "Actions/BaseAction.h"
 
-class Player final : public AnimatedMeshInstance {
+class Player final : public SkinningMeshInstance {
 public:
 	Player();
 	~Player() = default;

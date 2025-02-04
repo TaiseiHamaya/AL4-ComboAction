@@ -1,27 +1,29 @@
 #include "Enemy.h"
 
-#include <Engine/Utility/Tools/SmartPointer.h>
+#include <Library/Utility/Tools/SmartPointer.h>
 #include <Engine/Module/World/Collision/Collider/SphereCollider.h>
 #include <Engine/Runtime/WorldClock/WorldClock.h>
-#include <Engine/Utility/Tools/RandomEngine.h>
+#include <Library/Utility/Tools/RandomEngine.h>
+#include <Engine/Module/World/WorldManager.h>
 
 #include "Game/Util/RandomUtil.h"
 
 Enemy::Enemy(Vector3 translate_) :
-	MeshInstance("Enemy.gltf") {
-	collider = eps::CreateUnique<SphereCollider>();
-	collider->initialize();
-	collider->set_parent(*this);
-	collider->set_radius(0.5f);
-	collider->get_transform().set_translate_y(0.5f);
-
-	shadow = eps::CreateUnique<MeshInstance>("shadow.gltf");
+	StaticMeshInstance("Enemy.gltf") {
 
 	translate = translate_;
 }
 
+void Enemy::initialize() {
+	collider = world_manager()->create<SphereCollider>(this, false);
+	collider->set_radius(0.5f);
+	collider->get_transform().set_translate_y(0.5f);
+
+	shadow = world_manager()->create<StaticMeshInstance>(nullptr, false, "shadow.gltf");
+}
+
 void Enemy::begin() {
-	MeshInstance::begin();
+	StaticMeshInstance::begin();
 	shadow->begin();
 }
 
@@ -63,13 +65,13 @@ void Enemy::update() {
 	shadow->get_transform().set_translate_y(0.01f);
 }
 
-void Enemy::begin_rendering() noexcept {
-	MeshInstance::begin_rendering();
-	shadow->begin_rendering();
+void Enemy::transfer() noexcept {
+	StaticMeshInstance::transfer();
+	shadow->transfer();
 }
 
 void Enemy::draw() const {
-	MeshInstance::draw();
+	StaticMeshInstance::draw();
 	shadow->draw();
 }
 

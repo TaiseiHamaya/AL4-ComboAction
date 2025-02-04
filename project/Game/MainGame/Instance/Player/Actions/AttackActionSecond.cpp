@@ -9,7 +9,7 @@ AttackActionSecond::AttackActionSecond() {
 	bufferingableParametric = 0.5f;
 	transitionableParametric= 0.9f;
 
-	collisionController.initialize(JsonResource{ CollisionController::ActionJsonDir / "second.json" });
+	collisionController.initialize(JsonAsset{ CollisionController::ActionJsonDir / "second.json" });
 
 	actionTree.emplace_back(std::make_unique<AttackSky>());
 #ifdef _DEBUG

@@ -1,9 +1,11 @@
 #pragma once
 
 #ifdef _DEBUG
-#include <string>
-#include <vector>
+
 #include <filesystem>
+#include <string>
+#include <unordered_set>
+#include <vector>
 
 class ImGuiLoadManager final {
 private:
@@ -24,7 +26,7 @@ public:
 
 private:
 	void show_gui();
-	void get_file_list(std::vector<std::string>& list, const std::filesystem::path& path, const std::string& extension);
+	void get_file_list(std::vector<std::string>& list, const std::filesystem::path& path, std::unordered_set<std::string> extensions);
 
 private:
 	std::filesystem::path meshCurrentPath;
