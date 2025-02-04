@@ -14,8 +14,9 @@ EnemyManager::EnemyManager(Reference<CollisionManager> collisionManager_, Refere
 	collisionManager(collisionManager_),
 	callback(callback_),
 	worldManager(worldManager_) {
-	add_enemy(Vector3{ 0,0,0 });
-	add_enemy(Vector3{ 2,0,0 });
+	add_enemy(Vector3{ 0,0,3 });
+	add_enemy(Vector3{ 4,0,3 });
+	add_enemy(Vector3{ -4,0,3 });
 }
 
 EnemyManager::~EnemyManager() = default;
