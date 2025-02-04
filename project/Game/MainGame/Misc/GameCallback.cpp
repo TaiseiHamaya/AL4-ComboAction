@@ -1,6 +1,7 @@
 #include "GameCallback.h"
 
 #include <Engine/Module/World/Collision/Collider/SphereCollider.h>
+#include <Engine/Runtime/WorldClock/WorldClock.h>
 
 GameCallback::GameCallback(
 	Reference<const WorldInstance> player_
@@ -10,7 +11,7 @@ GameCallback::GameCallback(
 		CallbackMapKey("AttackCollider", "Enemy"),
 		CallbackFunctions{
 			nullptr,
-			std::bind(&GameCallback::Callback, this, __CALLBACK_PLACEHOLDERS_12),
+			std::bind(&GameCallback::callback, this, __CALLBACK_PLACEHOLDERS_12),
 			nullptr
 		}
 	);
@@ -58,7 +59,7 @@ void GameCallback::unregister_enemy(Reference<const Enemy> enemy) {
 	getEnemyByCollider.erase(enemy->get_collider().get());
 }
 
-void GameCallback::Callback(__CALLBACK_ARGUMENT_DEFAULT(lhs, rhs)) {
+void GameCallback::callback(__CALLBACK_ARGUMENT_DEFAULT(lhs, rhs)) {
 	Reference<Enemy> enemy;
 	Vector3 enemyCollisionPosition;
 	if (getEnemyByCollider.contains(lhs)) {

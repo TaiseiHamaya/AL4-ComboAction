@@ -25,10 +25,16 @@ void Enemy::initialize() {
 void Enemy::begin() {
 	StaticMeshInstance::begin();
 	shadow->begin();
+
+	if (hitPoint <= 0) {
+		isDead = true;
+	}
 }
 
 void Enemy::update() {
-	invincibleTimer -= WorldClock::DeltaSeconds();
+	if (!isDead) {
+		invincibleTimer -= WorldClock::DeltaSeconds();
+	}
 
 	if (translate.y >= 0) {
 		knockback.x *= 0.8f;
@@ -76,10 +82,15 @@ void Enemy::draw() const {
 }
 
 void Enemy::take_damage(float InvincibleTime) {
+	hitPoint -= 1.0f;
 	invincibleTimer = InvincibleTime;
 	collider->set_active(false);
 	direction = RandomOnSphere();
-	Vector3 xzknowkbackDirection = (world_position() - player->world_position());
-	xzknowkbackDirection.y = 0;
-	knockback = xzknowkbackDirection.normalize_safe(1e-4f, CVector3::ZERO) * 3.f + Vector3{ 0,2.0f, 0 };
+	Vector3 xzKnowkbackDirection = (world_position() - player->world_position());
+	xzKnowkbackDirection.y = 0;
+	if (hitPoint > 0) {
+		knockback = xzKnowkbackDirection.normalize_safe(1e-4f, CVector3::ZERO) * 3.f + Vector3{ 0,2.0f, 0 };
+	}else{
+		knockback = xzKnowkbackDirection.normalize_safe(1e-4f, CVector3::ZERO) * 15.f + Vector3{ 0,5.0f, 0 };
+	}
 }
