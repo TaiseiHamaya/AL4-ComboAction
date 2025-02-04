@@ -9,14 +9,16 @@ class Enemy;
 class CollisionManager;
 class GameCallback;
 class WorldManager;
+class DeadEnemy;
 
 class EnemyManager {
 public:
 	EnemyManager(Reference<CollisionManager> collisionManager_, Reference<GameCallback> callback_, Reference<WorldManager> worldManager_);
-	~EnemyManager() = default;
+	~EnemyManager();
 
 public:
 	void begin();
+
 	void update();
 	void transfer();
 	void late_update();
@@ -29,6 +31,7 @@ public:
 
 private:
 	std::list<std::unique_ptr<Enemy>> enemies;
+	std::list<std::unique_ptr<DeadEnemy>> removedEnemies;
 
 	Reference<GameCallback> callback;
 	Reference<CollisionManager> collisionManager;

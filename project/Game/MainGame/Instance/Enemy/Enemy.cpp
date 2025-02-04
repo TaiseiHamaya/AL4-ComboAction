@@ -45,9 +45,6 @@ void Enemy::update() {
 	if (translate.y < 0) {
 		translate.y = 0;
 		knockback = CVector3::ZERO;
-		if (isDead) {
-			isDestroy = true;
-		}
 	}
 
 	if (invincibleTimer <= 0) {

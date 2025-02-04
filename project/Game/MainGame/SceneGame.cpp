@@ -122,6 +122,8 @@ void SceneGame::initialize() {
 
 void SceneGame::update() {
 	if (enemyManager->is_hitstop()) {
+		callback->begin();
+		callback->update();
 		enemyManager->begin();
 		return;
 	}
@@ -143,9 +145,6 @@ void SceneGame::update() {
 }
 
 void SceneGame::begin_rendering() {
-	if (enemyManager->is_hitstop()) {
-		return;
-	}
 	worldManager->update_matrix();
 
 	camera3D->transfer();

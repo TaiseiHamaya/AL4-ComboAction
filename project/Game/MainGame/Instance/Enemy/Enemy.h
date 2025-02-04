@@ -22,7 +22,9 @@ public:
 	void take_damage(float Time);
 	const std::shared_ptr<SphereCollider>& get_collider() const { return collider; };
 
-	bool is_destroy() const { return isDestroy; }
+	bool is_destroy() const { return isDead; }
+
+	const Vector3& knockback_vector() const { return knockback; }
 
 private:
 	Vector3 translate;
@@ -35,9 +37,8 @@ private:
 	Vector3 knockback;
 	std::shared_ptr<SphereCollider> collider;
 
-	float hitPoint{15};
+	float hitPoint{ 15 };
 	bool isDead{ false };
-	bool isDestroy{ false };
 
 public:
 	inline static Reference<WorldInstance> player{};
