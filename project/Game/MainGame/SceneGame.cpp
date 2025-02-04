@@ -18,7 +18,9 @@
 #include <Engine/Module/Render/RenderTargetGroup/SwapChainRenderTargetGroup.h>
 #include <Engine/Module/World/Collision/Collider/SphereCollider.h>
 #include <Engine/Runtime/WorldClock/WorldClock.h>
+#include <Engine/Runtime/Scene/SceneManager.h>
 
+#include <Game/SceneFactoryGame.h>
 #include "Game/MainGame/Instance/Player/CollisionController/CollisionController.h"
 #include "Game/MainGame/Misc/GameCallback.h"
 #include <Engine/Module/Render/RenderNode/Debug/PrimitiveLine/PrimitiveLineNode.h>
@@ -145,6 +147,11 @@ void SceneGame::update() {
 	playerShadow->get_transform().set_scale({ scaleBase, scaleBase, scaleBase });
 	playerShadow->get_transform().set_translate(player->world_position());
 	playerShadow->get_transform().set_translate_y(0.01f);
+
+
+	if (enemyManager->is_clear()) {
+		SceneManager::SetSceneChange(SceneList::Claer, 1);
+	}
 }
 
 void SceneGame::begin_rendering() {

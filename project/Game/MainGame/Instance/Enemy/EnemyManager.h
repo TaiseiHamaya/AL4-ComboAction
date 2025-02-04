@@ -26,6 +26,7 @@ public:
 
 public:
 	bool is_hitstop() const { return isHitStop; }
+	bool is_clear() const;
 	void add_enemy(Vector3 position);
 	std::list<std::unique_ptr<Enemy>>::iterator erase_enemy(const std::list<std::unique_ptr<Enemy>>::iterator& itr);
 

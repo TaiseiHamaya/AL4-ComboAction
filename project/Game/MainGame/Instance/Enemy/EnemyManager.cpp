@@ -93,6 +93,10 @@ void EnemyManager::draw() const {
 	}
 }
 
+bool EnemyManager::is_clear() const {
+	return enemies.empty() && removedEnemies.empty();
+}
+
 void EnemyManager::add_enemy(Vector3 position) {
 	std::unique_ptr<Enemy>& enemy = enemies.emplace_back(worldManager->create<Enemy>(nullptr, false, position));
 	enemy->initialize();

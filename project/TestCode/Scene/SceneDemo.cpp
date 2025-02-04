@@ -282,7 +282,6 @@ void SceneDemo::begin_rendering() {
 
 	parent->transfer();
 	child->transfer();
-	sprite->transfer();
 	particleEmitter->transfer();
 	directionalLight->transfer();
 	pointLight->transfer();
@@ -291,6 +290,8 @@ void SceneDemo::begin_rendering() {
 
 	pointLightingExecutor->write_to_buffer(0, pointLight->transform_matrix(), pointLight->light_data());
 	directionalLightingExecutor->write_to_buffer(0, directionalLight->light_data());
+	
+	sprite->begin_rendering();
 }
 
 void SceneDemo::late_update() {
