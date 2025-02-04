@@ -2,6 +2,8 @@
 
 #include "BaseAttackAction.h"
 
+class FollowCamera;
+
 class AttackSky final : public BaseAttackAction {
 public:
 	AttackSky();
@@ -12,5 +14,8 @@ public:
 	void update() override;
 
 	BaseAction* next_combo_action() override;
+
+public:
+	inline static Reference<FollowCamera> camera;
 };
 

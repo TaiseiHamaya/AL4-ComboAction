@@ -34,6 +34,7 @@ private:
 	Quaternion destingRotation;
 
 	Vector3 shakeOffset;
+	Vector3 shakeDirection;
 	float shakeTimer;
 };
 

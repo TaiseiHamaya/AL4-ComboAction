@@ -1,6 +1,7 @@
 #include "AttackSky.h"
 
 #include "../Player.h"
+#include "Game/MainGame/Instance/Camera/FollowCamera.h"
 
 #include <Engine/Runtime/WorldClock/WorldClock.h>
 
@@ -32,6 +33,8 @@ void AttackSky::update() {
 	}
 	if (player->get_transform().get_translate().y <= 0) {
 		player->get_transform().set_translate_y(0.0f);
+
+		camera->do_shake();
 	}
 }
 

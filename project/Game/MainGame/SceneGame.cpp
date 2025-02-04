@@ -23,6 +23,8 @@
 #include "Game/MainGame/Misc/GameCallback.h"
 #include <Engine/Module/Render/RenderNode/Debug/PrimitiveLine/PrimitiveLineNode.h>
 
+#include "Game/MainGame/Instance/Player/Actions/AttackSky.h"
+
 void SceneGame::load() {
 	PolygonMeshLibrary::RegisterLoadQue("./Resources/Game/Models/skydome.gltf");
 	PolygonMeshLibrary::RegisterLoadQue("./Resources/Game/Models/shadow.gltf");
@@ -72,6 +74,7 @@ void SceneGame::initialize() {
 	Particle::lookAtDefault = camera3D.get();
 	HitAnimation::camera = camera3D;
 	Billboard::camera = camera3D;
+	AttackSky::camera = camera3D;
 
 	CollisionController::parent = player;
 	player->initialize(camera3D);

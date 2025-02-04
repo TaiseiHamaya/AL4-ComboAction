@@ -21,7 +21,15 @@ void FollowCamera::initialize() {
 void FollowCamera::update() {
 	shakeTimer -= WorldClock::DeltaSeconds();
 	if (shakeTimer >= 0.0f) {
-		shakeOffset = RandomOnSphere() * RandomEngine::Random01MOD();
+		bool singbit = std::signbit(std::sin(shakeTimer * PI * 20));
+
+		shakeOffset = shakeDirection * (1 - shakeTimer / 0.2f);
+		if (singbit) {
+			shakeOffset *= -1;
+		}
+	}
+	else {
+		shakeOffset = CVector3::ZERO;
 	}
 
 	// 入力から回転に変換
@@ -78,7 +86,7 @@ void FollowCamera::update() {
 	lookAtInstance.get_transform().set_translate(lookAt);
 	// offsetを回転させて視線を向ける
 	Vector3 translate = offset * transform.get_quaternion();
-	transform.set_translate(translate);
+	transform.set_translate(translate + shakeOffset);
 }
 
 void FollowCamera::input() {
@@ -90,7 +98,10 @@ void FollowCamera::input() {
 }
 
 void FollowCamera::do_shake() {
-	shakeTimer = 1.0f;
+	shakeTimer = 0.2f;
+	Vector3 base = CVector3::RIGHT * Quaternion::AngleAxis(CVector3::FORWARD, RandomEngine::Random01MOD() * PI2);
+	base = base * world_affine().get_basis();
+	shakeDirection = base * 0.4f;
 }
 
 void FollowCamera::set_offset(const Vector3& offset_) {
