@@ -61,6 +61,12 @@ void Enemy::update() {
 		}
 	}
 	else {
+		if (player) {
+			look_at(*player.ptr());
+			float speed = 1.0f;
+			Vector3 velocity = CVector3::FORWARD * transform.get_quaternion() * speed;
+			translate += velocity * WorldClock::DeltaSeconds();
+		}
 		transform.set_translate(translate);
 	}
 
@@ -90,7 +96,8 @@ void Enemy::take_damage(float InvincibleTime) {
 	xzKnowkbackDirection.y = 0;
 	if (hitPoint > 0) {
 		knockback = xzKnowkbackDirection.normalize_safe(1e-4f, CVector3::ZERO) * 3.f + Vector3{ 0,2.0f, 0 };
-	}else{
+	}
+	else {
 		knockback = xzKnowkbackDirection.normalize_safe(1e-4f, CVector3::ZERO) * 15.f + Vector3{ 0,5.0f, 0 };
 	}
 }
