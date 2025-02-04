@@ -5,6 +5,7 @@
 enum SceneList {
 	Title,
 	Game,
+	Claer,
 };
 
 class SceneFactoryGame final : public BaseSceneFactory {

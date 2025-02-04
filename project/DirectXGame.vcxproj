@@ -131,6 +131,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Engine\Application\Framework.cpp" />
     <ClCompile Include="Game\GameFramework.cpp" />
     <ClCompile Include="Game\SceneFactoryGame.cpp" />
+    <ClCompile Include="Game\Clear\SceneClear.cpp" />
     <ClCompile Include="TestCode\GameDemo.cpp" />
     <ClCompile Include="TestCode\Scene\FactoryDemo.cpp" />
     <ClCompile Include="Game\MainGame\Instance\Enemy\EnemyManager.cpp" />
@@ -279,6 +280,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Engine\Application\Framework.h" />
     <ClInclude Include="Game\GameFramework.h" />
     <ClInclude Include="Game\SceneFactoryGame.h" />
+    <ClInclude Include="Game\Clear\SceneClear.h" />
     <ClInclude Include="TestCode\GameDemo.h" />
     <ClInclude Include="TestCode\Scene\FactoryDemo.h" />
     <ClInclude Include="Game\MainGame\Instance\Enemy\EnemyManager.h" />

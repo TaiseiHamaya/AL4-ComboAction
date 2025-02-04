@@ -30,7 +30,7 @@ private:
 	Vector2 inputStickR;
 
 	Reference<const WorldInstance> target;
-	WorldInstance lookAtInstance;
+	std::unique_ptr<WorldInstance> lookAtInstance;
 	Quaternion destingRotation;
 
 	Vector3 shakeOffset;

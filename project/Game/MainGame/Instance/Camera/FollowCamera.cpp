@@ -4,6 +4,7 @@
 
 #include <Engine/Runtime/Input/Input.h>
 #include <Engine/Runtime/WorldClock/WorldClock.h>
+#include <Engine/Module/World/WorldManager.h>
 
 #include <Library/Math/Definition.h>
 
@@ -11,6 +12,8 @@
 
 void FollowCamera::initialize() {
 	Camera3D::initialize();
+
+	lookAtInstance = world_manager()->create<WorldInstance>();
 	reparent(lookAtInstance);
 	destingRotation =
 		Quaternion::EulerDegree(45, 0, 0);
@@ -82,8 +85,8 @@ void FollowCamera::update() {
 		return;
 	}
 	// 今のworld座標と注視対象のworld座標で補完
-	Vector3 lookAt = Vector3::Lerp(lookAtInstance.world_position(), target->world_position(), 0.4f);
-	lookAtInstance.get_transform().set_translate(lookAt);
+	Vector3 lookAt = Vector3::Lerp(lookAtInstance->world_position(), target->world_position(), 0.4f);
+	lookAtInstance->get_transform().set_translate(lookAt);
 	// offsetを回転させて視線を向ける
 	Vector3 translate = offset * transform.get_quaternion();
 	transform.set_translate(translate + shakeOffset);

@@ -112,6 +112,6 @@ void GameCallback::callback_push(__CALLBACK_ARGUMENT_DEFAULT(lhs, rhs)) {
 		return;
 	}
 
-	lEnemy->translate_force(lEnemy->world_position() + normalized * pushLength * std::min(rForce / forceSum, 0.2f));
-	rEnemy->translate_force(rEnemy->world_position() + -normalized * pushLength * std::min(lForce / forceSum, 0.2f));
+	lEnemy->translate_force(lEnemy->world_position() + normalized * pushLength * rForce / forceSum);
+	rEnemy->translate_force(rEnemy->world_position() + -normalized * pushLength * lForce / forceSum);
 }
